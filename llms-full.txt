@@ -1,0 +1,403 @@
+# Fujin UI Toolset — Full Reference
+> Version: 0.1.0 | Platform: Web (Mantine v7) + Native (planned)
+> This file is intended for agent consumption. Read llms.txt first for a quick index.
+
+---
+
+## 1. DESIGN RULES
+
+### Sharp-Edge Mandate
+All components must use `borderRadius: tokens.radius.default` which equals `0`.
+This applies to every element including Mantine component API props (e.g., `<Menu radius={tokens.radius.default}>`).
+Mantine's internal popover wrappers may apply their own radius — always override via the component's `radius` prop, not just inline styles.
+
+### Token-First Rule
+Every design value (color, spacing, radius, typography, shadow, transition) must be sourced from `tokens.json`.
+Import pattern: `import tokens from '../tokens.json';`
+Never hardcode hex values, px values, or font names directly in components.
+
+### Progressive Disclosure Rule
+- Cards with >2 actions: overflow into `ActionMenu`, expose max 2 primary actions
+- Workflows with >3 steps: use `WorkflowStepper`
+- Cards with secondary detail: use `DataCard` with the `detail` prop + `Collapse`
+
+### Density Rule
+The UI must be invisible — it stays out of the way of data.
+Use whitespace from the spacing scale to separate control groups.
+Avoid stacked borders (double-border anti-pattern).
+
+---
+
+## 2. TOKEN CONTRACT
+
+File: `tokens.json`
+
+### Color Palette — Slate
+```
+slate[0]  #f8fafc   (lightest)
+slate[1]  #f1f5f9
+slate[2]  #e2e8f0
+slate[3]  #cbd5e1
+slate[4]  #94a3b8
+slate[5]  #64748b
+slate[6]  #475569
+slate[7]  #334155
+slate[8]  #1e293b
+slate[9]  #0f172a   (darkest)
+```
+
+### Semantic Colors
+```
+background.base      #0f172a   — page background
+background.surface   #1e293b   — cards, panels
+background.elevated  #334155   — dropdowns, tooltips
+background.overlay   #475569   — modals
+
+text.primary         #f8fafc   — headings, labels
+text.secondary       #cbd5e1   — body text
+text.muted           #94a3b8   — placeholders, hints
+text.inverse         #0f172a   — text on light backgrounds
+
+border.subtle        #334155   — dividers, card borders
+border.default       #475569   — input borders
+border.strong        #94a3b8   — focus rings, emphasis
+
+interactive.default  #64748b   — primary action background
+interactive.hover    #94a3b8
+interactive.active   #cbd5e1
+interactive.disabled #334155
+
+status.danger        #f87171
+status.warning       #fbbf24
+status.success       #4ade80
+status.info          #60a5fa
+```
+
+### Spacing
+```
+base    4    (smallest unit — use for gaps inside components)
+xs      10
+sm      12
+md      16   (standard padding)
+lg      20
+xl      24
+xxl     32
+```
+Usage: `tokens.spacing.scale.md` returns `16` (number). Append `px` for CSS strings.
+
+### Typography
+```
+fontFamily.base  "Verdana", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif
+fontFamily.mono  "JetBrains Mono", "Fira Code", "Cascadia Code", Menlo, Consolas, monospace
+
+fontSize.xs   10
+fontSize.sm   12
+fontSize.md   14
+fontSize.lg   16
+fontSize.xl   20
+fontSize.xxl  24
+fontSize.h1   32  through  fontSize.h6  12
+
+fontWeight.regular   400
+fontWeight.medium    500
+fontWeight.semibold  600
+fontWeight.bold      700
+
+lineHeight.tight    1.2
+lineHeight.base     1.5
+lineHeight.relaxed  1.75
+
+letterSpacing.tight    -0.02em
+letterSpacing.base      0em
+letterSpacing.wide      0.05em   (used on uppercase labels)
+letterSpacing.widest    0.1em
+```
+
+### Radius
+```
+All sizes → 0
+tokens.radius.default = 0
+```
+
+---
+
+## 3. COMPONENT API REFERENCE
+
+---
+
+### ToolShell
+Layout shell with collapsible left rail navigation.
+
+```tsx
+import { ToolShell, type NavItem } from './components';
+
+interface NavItem {
+  icon:     ReactNode;
+  label:    string;
+  active?:  boolean;
+  onClick?: () => void;
+}
+
+interface ToolShellProps {
+  navItems:  NavItem[];
+  logo?:     ReactNode;   // shown at top of rail; click toggles collapse
+  footer?:   ReactNode;   // shown at bottom of rail (user profile, settings)
+  children:  ReactNode;   // main content area
+}
+```
+
+Behavior:
+- Rail expands (220px, icon + label) / collapses (60px, icon only) via logo click
+- Collapsed: labels appear as `Tooltip` on hover
+- Mobile: rail hidden by default; wire a burger button to internal `toggleMobile`
+- `active` prop on NavItem highlights the current route
+
+---
+
+### DataCard
+Card with progressive disclosure and action overflow.
+
+```tsx
+import { DataCard, type CardAction } from './components';
+
+interface CardAction {
+  label:     string;
+  icon?:     ReactNode;
+  onClick:   () => void;
+  danger?:   boolean;
+  disabled?: boolean;
+}
+
+interface DataCardProps {
+  title:        string;
+  badge?:       ReactNode;    // right side of header (e.g., StatusBadge)
+  children:     ReactNode;    // always-visible primary content
+  detail?:      ReactNode;    // hidden until user expands (useDisclosure)
+  actions?:     CardAction[]; // first 2 shown; rest in overflow ActionMenu
+  defaultOpen?: boolean;      // disclosure open on mount (default: false)
+}
+```
+
+Behavior:
+- If `detail` is provided, a toggle button appears below primary content
+- Max 2 primary actions; overflow goes into a `Menu` triggered by "More ▾"
+- No border on the disclosed detail panel — the toggle button acts as the divider
+
+---
+
+### WorkflowStepper
+Multi-step workflow with per-step validation and navigation.
+
+```tsx
+import { WorkflowStepper, type WorkflowStep } from './components';
+
+interface WorkflowStep {
+  label:        string;
+  description?: string;
+  content:      ReactNode;
+  validate?:    () => true | string;  // true = pass, string = error message
+}
+
+interface WorkflowStepperProps {
+  steps:           WorkflowStep[];
+  onComplete?:     () => void;        // fires when final step is completed
+  allowStepClick?: boolean;           // allow clicking back to prior steps (default: false)
+}
+```
+
+Behavior:
+- `validate()` on the current step is called before advancing
+- Error string is displayed below the stepper in `status.danger` color
+- `allowStepClick` only permits navigating to already-completed steps (not forward)
+- Final step shows "Complete" instead of "Next →"
+- After completion, `Stepper.Completed` renders and navigation is hidden
+
+---
+
+### FormShell
+Form layout wrapper. Does not own form state — caller uses Mantine `useForm`.
+
+```tsx
+import { FormShell, type FormShellProps } from './components';
+
+interface FormShellProps {
+  onSubmit:     (e: FormEvent<HTMLFormElement>) => void;
+  children:     ReactNode;    // form fields (Mantine inputs)
+  submitLabel?: string;       // default: 'Submit'
+  loading?:     boolean;      // disables submit, shows Loader
+  error?:       string;       // form-level error (below fields, above footer)
+  actions?:     ReactNode;    // secondary actions (e.g., Cancel) — left-aligned
+}
+```
+
+Usage:
+```tsx
+const form = useForm({ initialValues: { name: '' } });
+
+<FormShell
+  onSubmit={form.onSubmit(handleSubmit)}
+  submitLabel="Save"
+  loading={saving}
+  error={serverError}
+  actions={<CancelButton />}
+>
+  <TextInput label="Name" {...form.getInputProps('name')} />
+</FormShell>
+```
+
+Behavior:
+- `loading` prevents double-submit (form `onSubmit` is swallowed while loading)
+- Form-level `error` is separate from field-level errors (which Mantine handles)
+- `actions` slot is left-aligned; submit button is always right-aligned
+
+---
+
+### StatusBadge
+Inline status indicator. Text only, no icons.
+
+```tsx
+import { StatusBadge, type StatusBadgeProps } from './components';
+
+interface StatusBadgeProps {
+  status: 'success' | 'danger' | 'warning' | 'info' | 'neutral';
+  label:  string;
+  size?:  'sm' | 'md';  // default: 'sm'
+}
+```
+
+Color mapping:
+- `success`  → `tokens.color.semantic.status.success`
+- `danger`   → `tokens.color.semantic.status.danger`
+- `warning`  → `tokens.color.semantic.status.warning`
+- `info`     → `tokens.color.semantic.status.info`
+- `neutral`  → `tokens.color.semantic.text.muted`
+
+Rendered as a `<span>` with border matching the status color. Uppercase, wide letter-spacing.
+
+---
+
+### ActionMenu
+Standalone overflow menu. Trigger is a ⋯ button.
+
+```tsx
+import { ActionMenu, type ActionMenuItem } from './components';
+
+interface ActionMenuItem {
+  label:     string;
+  icon?:     ReactNode;
+  onClick:   () => void;
+  danger?:   boolean;
+  disabled?: boolean;
+}
+
+interface ActionMenuProps {
+  items: ActionMenuItem[];
+}
+```
+
+Behavior:
+- Danger items render in `status.danger` color
+- Disabled items have `opacity: 0.5` and swallowed `onClick`
+- Dropdown positioned `bottom-end`, `radius={tokens.radius.default}`
+- Use inside `DataCard` overflow slot or standalone on any surface
+
+---
+
+### SectionHeader
+Consistent section/panel header. Renders as a `<div>` with bottom border.
+
+```tsx
+import { SectionHeader, type SectionHeaderProps } from './components';
+
+interface SectionHeaderProps {
+  title:        string;
+  description?: string;   // subtitle below title, muted color
+  action?:      ReactNode; // right-side slot (button, badge, menu)
+}
+```
+
+Note: `SectionHeader` does not own its bottom margin — the parent controls spacing below it.
+
+---
+
+## 4. AGENT INTEGRATION NOTES
+
+### For agents implementing Mantine UI using this toolset:
+
+1. Read `tokens.json` before writing any component. All values come from there.
+2. Do not introduce a Mantine theme override unless a specific friction point requires it. Document the reason.
+3. If a new component is needed, check if an existing component covers it via composition before creating a new one.
+4. All new components must follow the same token-import pattern as existing ones.
+5. Flag any hardcoded value as a violation — it must be resolved before the component is accepted.
+6. The `radius: 0` rule has no exceptions unless explicitly approved.
+7. Do not add `marginBottom` or external spacing to component containers — callers own layout spacing.
+
+### G31P (Gemini) Offload Protocol:
+- Low-complexity, mechanical, clearly-scoped components → brief to G31P
+- Judgment-heavy (disclosure logic, layout shells, workflow behavior) → Fujin only
+- All G31P output is reviewed by Fujin before acceptance
+- Brief must include: file path, token import pattern, props interface, behavior spec
+
+---
+
+---
+
+### DataTable
+Sortable, paginated data table with loading and empty states. Generic over row type.
+
+```tsx
+import { DataTable, type DataColumn, type SortDirection } from './components';
+
+interface DataColumn<T> {
+  key:       keyof T;
+  label:     string;
+  sortable?: boolean;
+  width?:    number | string;
+  render?:   (row: T) => ReactNode;  // custom cell renderer; receives full row
+}
+
+interface DataTableProps<T extends Record<string, unknown>> {
+  columns:       DataColumn<T>[];
+  rows:          T[];
+  rowKey:        keyof T;            // unique identifier field
+  loading?:      boolean;
+  emptyMessage?: string;             // default: 'No records found.'
+  pageSize?:     number;             // omit for no pagination
+  rowActions?:   (row: T) => ReactNode; // right-aligned per-row slot (use ActionMenu)
+  onSortChange?: (key: keyof T, direction: SortDirection) => void;
+}
+```
+
+Behavior:
+- Sort is client-side by default (internal state). If `onSortChange` is provided, the callback fires and the caller is responsible for passing pre-sorted rows back.
+- Pagination is internal — slices rows by `pageSize` and current page. Row count label shown left of pagination controls.
+- `loading` with no rows: shows centered `Loader` in tbody
+- `loading` with existing rows (reload): rows shown at 50% opacity during fetch
+- Empty state: single full-width row with `emptyMessage`
+- Sort indicators: ↕ (unsorted), ↑ (asc), ↓ (desc) appended to header label
+- Last column reserved for `rowActions` slot (48px wide, right-aligned)
+
+Usage:
+```tsx
+<DataTable
+  columns={[
+    { key: 'name',   label: 'Name',   sortable: true },
+    { key: 'status', label: 'Status', render: (row) => <StatusBadge status={row.status} label={row.status} /> },
+    { key: 'date',   label: 'Date',   sortable: true },
+  ]}
+  rows={data}
+  rowKey="id"
+  loading={fetching}
+  pageSize={20}
+  emptyMessage="No results match your filter."
+  rowActions={(row) => <ActionMenu items={actionsFor(row)} />}
+/>
+```
+
+---
+
+## 5. KNOWN GAPS (Planned)
+- ~~Data table~~ Done
+- Light theme semantic layer
+- Component-level token tier (for variant-heavy components)
+- React Native primitive set (consumes same tokens.json)

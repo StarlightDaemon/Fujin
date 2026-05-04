@@ -1,0 +1,42 @@
+# Fujin UI Toolset
+> Mantine v7-based UI component library for web and React Native projects.
+> All components are token-driven, sharp-edged, and workstation-focused.
+
+## Repository Structure
+- `tokens.json`         — Single source of truth for all design values
+- `components/`         — All UI components
+- `llms-full.txt`       — Full component API reference and usage examples
+
+## Core Rules (Non-Negotiable)
+1. All colors, spacing, radius, and typography MUST reference `tokens.json`. No hardcoded values.
+2. All `borderRadius` MUST be `tokens.radius.default` (value: 0). Sharp edges everywhere.
+3. No Mantine theme override exists yet — components use inline `style` props driven by tokens.
+4. `tokens.color.semantic.*` is the only permitted color namespace in components.
+5. Progressive disclosure: if a card has >2 actions, overflow into `ActionMenu`. If a workflow has >3 steps, use `WorkflowStepper`.
+
+## Token Contract Summary
+- Palette:    Slate (10-step, dark-first)
+- Spacing:    4px base, scale: xs(10) sm(12) md(16) lg(20) xl(24) xxl(32)
+- Typography: Verdana → system font stack; JetBrains Mono for monospace
+- Radius:     0 on all sizes
+- Themes:     Dark only (light theme not yet defined)
+
+## Component Index
+- `ToolShell`        — App shell with collapsible left rail navigation
+- `DataCard`         — Card with progressive disclosure and action overflow
+- `WorkflowStepper`  — Multi-step workflow with per-step validation
+- `FormShell`        — Form layout wrapper with error display and submit state
+- `StatusBadge`      — Status indicator badge (success/danger/warning/info/neutral)
+- `ActionMenu`       — Standalone overflow action menu (⋯ trigger)
+- `SectionHeader`    — Panel/section header with optional right-side action slot
+- `DataTable`        — Sortable, paginated data table with loading and empty states
+
+## Import Path
+```ts
+import { ToolShell, DataCard, WorkflowStepper, FormShell, StatusBadge, ActionMenu, SectionHeader, DataTable } from './components';
+import type { NavItem, CardAction, WorkflowStep, FormShellProps, DataColumn, SortDirection } from './components';
+```
+
+## Agent Boundaries
+- Fujin: UI components, tokens, layout, progressive disclosure logic
+- Raiden: File structure, scaffolding, CI/CD, backend integration
