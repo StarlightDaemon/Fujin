@@ -19,17 +19,17 @@ export function ActionMenu({ items }: ActionMenuProps) {
     fontFamily: tokens.typography.fontFamily.base,
     fontSize: tokens.typography.fontSize.sm,
     fontWeight: tokens.typography.fontWeight.medium,
-    color: tokens.color.semantic.text.secondary,
+    color: 'var(--fujin-text-secondary)',
     padding: `${tokens.spacing.base}px ${tokens.spacing.scale.sm}px`,
     cursor: 'pointer',
-    border: `1px solid ${tokens.color.semantic.border.subtle}`,
+    border: `1px solid var(--fujin-border-subtle)`,
     borderRadius: tokens.radius.default,
     background: 'transparent',
   };
 
   const dropdownStyle: React.CSSProperties = {
-    background: tokens.color.semantic.background.elevated,
-    border: `1px solid ${tokens.color.semantic.border.default}`,
+    background: 'var(--fujin-bg-elevated)',
+    border: `1px solid var(--fujin-border-default)`,
     borderRadius: tokens.radius.default,
     padding: `${tokens.spacing.base}px 0`,
   };
@@ -50,10 +50,10 @@ export function ActionMenu({ items }: ActionMenuProps) {
               fontFamily: tokens.typography.fontFamily.base,
               fontSize: tokens.typography.fontSize.xs,
               color: item.danger
-                ? tokens.color.semantic.status.danger
-                : tokens.color.semantic.text.secondary,
+                ? 'var(--fujin-status-danger)'
+                : 'var(--fujin-text-secondary)',
               borderRadius: tokens.radius.default,
-              opacity: item.disabled ? 0.5 : 1,
+              opacity: item.disabled ? tokens.opacity.disabled : 1,
             }}
           >
             {item.label}

@@ -64,24 +64,24 @@ export function WorkflowStepper({
     borderRadius: tokens.radius.default,
     border:       `1px solid ${
       variant === 'primary'
-        ? tokens.color.semantic.interactive.default
-        : tokens.color.semantic.border.subtle
+        ? 'var(--fujin-interactive-default)'
+        : 'var(--fujin-border-subtle)'
     }`,
     background: variant === 'primary'
-      ? tokens.color.semantic.interactive.default
+      ? 'var(--fujin-interactive-default)'
       : 'transparent',
     color: variant === 'primary'
-      ? tokens.color.semantic.text.primary
-      : tokens.color.semantic.text.secondary,
+      ? 'var(--fujin-text-primary)'
+      : 'var(--fujin-text-secondary)',
     cursor:  disabled ? 'not-allowed' : 'pointer',
-    opacity: disabled ? 0.4 : 1,
+    opacity: disabled ? tokens.opacity.disabled : 1,
   });
 
   return (
     <Box
       style={{
-        background:   tokens.color.semantic.background.surface,
-        border:       `1px solid ${tokens.color.semantic.border.subtle}`,
+        background:   'var(--fujin-bg-surface)',
+        border:       `1px solid var(--fujin-border-subtle)`,
         borderRadius: tokens.radius.default,
       }}
     >
@@ -94,9 +94,9 @@ export function WorkflowStepper({
           },
           stepIcon: {
             borderRadius: tokens.radius.default,
-            borderColor:  tokens.color.semantic.border.default,
-            background:   tokens.color.semantic.background.surface,
-            color:        tokens.color.semantic.text.muted,
+            borderColor:  'var(--fujin-border-default)',
+            background:   'var(--fujin-bg-surface)',
+            color:        'var(--fujin-text-muted)',
             fontFamily:   tokens.typography.fontFamily.base,
             fontSize:     tokens.typography.fontSize.xs,
           },
@@ -104,15 +104,15 @@ export function WorkflowStepper({
             fontFamily: tokens.typography.fontFamily.base,
             fontSize:   tokens.typography.fontSize.sm,
             fontWeight: tokens.typography.fontWeight.medium,
-            color:      tokens.color.semantic.text.secondary,
+            color:      'var(--fujin-text-secondary)',
           },
           stepDescription: {
             fontFamily: tokens.typography.fontFamily.base,
             fontSize:   tokens.typography.fontSize.xs,
-            color:      tokens.color.semantic.text.muted,
+            color:      'var(--fujin-text-muted)',
           },
           separator: {
-            borderColor: tokens.color.semantic.border.subtle,
+            borderColor: 'var(--fujin-border-subtle)',
           },
           content: {
             paddingTop: tokens.spacing.scale.md,
@@ -128,8 +128,8 @@ export function WorkflowStepper({
             <Box
               style={{
                 padding:      tokens.spacing.scale.md,
-                background:   tokens.color.semantic.background.base,
-                border:       `1px solid ${tokens.color.semantic.border.subtle}`,
+                background:   'var(--fujin-bg-base)',
+                border:       `1px solid var(--fujin-border-subtle)`,
                 borderRadius: tokens.radius.default,
               }}
             >
@@ -142,8 +142,8 @@ export function WorkflowStepper({
           <Box
             style={{
               padding:      tokens.spacing.scale.md,
-              background:   tokens.color.semantic.background.base,
-              border:       `1px solid ${tokens.color.semantic.border.subtle}`,
+              background:   'var(--fujin-bg-base)',
+              border:       `1px solid var(--fujin-border-subtle)`,
               borderRadius: tokens.radius.default,
               textAlign:    'center',
             }}
@@ -152,7 +152,7 @@ export function WorkflowStepper({
               style={{
                 fontFamily: tokens.typography.fontFamily.base,
                 fontSize:   tokens.typography.fontSize.md,
-                color:      tokens.color.semantic.status.success,
+                color:      'var(--fujin-status-success)',
               }}
             >
               Workflow complete.
@@ -168,7 +168,7 @@ export function WorkflowStepper({
             style={{
               fontFamily: tokens.typography.fontFamily.base,
               fontSize:   tokens.typography.fontSize.xs,
-              color:      tokens.color.semantic.status.danger,
+              color:      'var(--fujin-status-danger)',
             }}
           >
             {error}
@@ -181,7 +181,7 @@ export function WorkflowStepper({
         <Box
           style={{
             padding:        `${tokens.spacing.scale.sm}px ${tokens.spacing.scale.md}px`,
-            borderTop:      `1px solid ${tokens.color.semantic.border.subtle}`,
+            borderTop:      `1px solid var(--fujin-border-subtle)`,
             display:        'flex',
             justifyContent: 'space-between',
             alignItems:     'center',

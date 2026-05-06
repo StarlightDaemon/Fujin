@@ -10,8 +10,8 @@
 ## Core Rules (Non-Negotiable)
 1. All colors, spacing, radius, and typography MUST reference `tokens.json`. No hardcoded values.
 2. All `borderRadius` MUST be `tokens.radius.default` (value: 0). Sharp edges everywhere.
-3. No Mantine theme override exists yet — components use inline `style` props driven by tokens.
-4. `tokens.color.semantic.*` is the only permitted color namespace in components.
+3. No Mantine theme override — components use inline `style` props; colors via CSS custom properties (`var(--fujin-*)`).
+4. All color references in components MUST use `var(--fujin-*)` CSS custom properties — never `tokens.color.*` directly.
 5. Progressive disclosure: if a card has >2 actions, overflow into `ActionMenu`. If a workflow has >3 steps, use `WorkflowStepper`.
 
 ## Token Contract Summary
@@ -19,7 +19,7 @@
 - Spacing:    4px base, scale: xs(10) sm(12) md(16) lg(20) xl(24) xxl(32)
 - Typography: Verdana → system font stack; JetBrains Mono for monospace
 - Radius:     0 on all sizes
-- Themes:     Dark only (light theme not yet defined)
+- Themes:     Dark + Light (CSS custom properties via FujinThemeProvider; toggle with useFujinTheme)
 
 ## Component Index
 - `ToolShell`        — App shell with collapsible left rail navigation

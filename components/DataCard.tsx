@@ -37,14 +37,14 @@ export function DataCard({
   const hasDetail      = Boolean(detail);
 
   const card: React.CSSProperties = {
-    background:   tokens.color.semantic.background.surface,
-    border:       `1px solid ${tokens.color.semantic.border.subtle}`,
+    background:   'var(--fujin-bg-surface)',
+    border:       `1px solid var(--fujin-border-subtle)`,
     borderRadius: tokens.radius.default,
   };
 
   const header: React.CSSProperties = {
     padding:        `${tokens.spacing.scale.sm}px ${tokens.spacing.scale.md}px`,
-    borderBottom:   `1px solid ${tokens.color.semantic.border.subtle}`,
+    borderBottom:   `1px solid var(--fujin-border-subtle)`,
     display:        'flex',
     alignItems:     'center',
     justifyContent: 'space-between',
@@ -55,7 +55,7 @@ export function DataCard({
     fontFamily:    tokens.typography.fontFamily.base,
     fontSize:      tokens.typography.fontSize.sm,
     fontWeight:    tokens.typography.fontWeight.semibold,
-    color:         tokens.color.semantic.text.primary,
+    color:         'var(--fujin-text-primary)',
     letterSpacing: tokens.typography.letterSpacing.wide,
     textTransform: 'uppercase',
   };
@@ -67,11 +67,11 @@ export function DataCard({
   const disclosureToggle: React.CSSProperties = {
     fontFamily:  tokens.typography.fontFamily.base,
     fontSize:    tokens.typography.fontSize.xs,
-    color:       tokens.color.semantic.text.muted,
+    color:       'var(--fujin-text-muted)',
     cursor:      'pointer',
     userSelect:  'none',
     padding:     `${tokens.spacing.scale.xs}px ${tokens.spacing.scale.md}px`,
-    borderTop:   `1px solid ${tokens.color.semantic.border.subtle}`,
+    borderTop:   `1px solid var(--fujin-border-subtle)`,
     display:     'flex',
     alignItems:  'center',
     gap:         tokens.spacing.scale.xs,
@@ -79,12 +79,12 @@ export function DataCard({
 
   const detailPanel: React.CSSProperties = {
     padding:    tokens.spacing.scale.md,
-    background: tokens.color.semantic.background.base,
+    background: 'var(--fujin-bg-base)',
   };
 
   const footer: React.CSSProperties = {
     padding:        `${tokens.spacing.scale.xs}px ${tokens.spacing.scale.md}px`,
-    borderTop:      `1px solid ${tokens.color.semantic.border.subtle}`,
+    borderTop:      `1px solid var(--fujin-border-subtle)`,
     display:        'flex',
     alignItems:     'center',
     gap:            tokens.spacing.scale.sm,
@@ -96,17 +96,17 @@ export function DataCard({
     fontSize:    tokens.typography.fontSize.xs,
     fontWeight:  tokens.typography.fontWeight.medium,
     color:       disabled
-                   ? tokens.color.semantic.interactive.disabled
+                   ? 'var(--fujin-interactive-disabled)'
                    : danger
-                     ? tokens.color.semantic.status.danger
-                     : tokens.color.semantic.text.secondary,
+                     ? 'var(--fujin-status-danger)'
+                     : 'var(--fujin-text-secondary)',
     padding:     `${tokens.spacing.base}px ${tokens.spacing.scale.sm}px`,
     cursor:      disabled ? 'not-allowed' : 'pointer',
-    border:      `1px solid ${tokens.color.semantic.border.subtle}`,
+    border:      `1px solid var(--fujin-border-subtle)`,
     borderRadius: tokens.radius.default,
     background:  'transparent',
     userSelect:  'none',
-    opacity:     disabled ? 0.5 : 1,
+    opacity:     disabled ? tokens.opacity.disabled : 1,
   });
 
   return (
@@ -159,8 +159,8 @@ export function DataCard({
               </Menu.Target>
               <Menu.Dropdown
                 style={{
-                  background:   tokens.color.semantic.background.elevated,
-                  border:       `1px solid ${tokens.color.semantic.border.default}`,
+                  background:   'var(--fujin-bg-elevated)',
+                  border:       `1px solid var(--fujin-border-default)`,
                   borderRadius: tokens.radius.default,
                   padding:      `${tokens.spacing.base}px 0`,
                 }}
@@ -175,8 +175,8 @@ export function DataCard({
                       fontFamily:   tokens.typography.fontFamily.base,
                       fontSize:     tokens.typography.fontSize.xs,
                       color:        a.danger
-                                      ? tokens.color.semantic.status.danger
-                                      : tokens.color.semantic.text.secondary,
+                                      ? 'var(--fujin-status-danger)'
+                                      : 'var(--fujin-text-secondary)',
                       borderRadius: tokens.radius.default,
                     }}
                   >

@@ -1,10 +1,11 @@
-import { AppShell, NavLink, Stack, Tooltip, UnstyledButton } from '@mantine/core';
+import { AppShell, Stack, Tooltip, UnstyledButton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import tokens from '../tokens.json';
 
-const RAIL_EXPANDED  = 220;
-const RAIL_COLLAPSED = 60;
+const RAIL_EXPANDED    = 220;
+const RAIL_COLLAPSED   = 60;
+const NAV_ITEM_HEIGHT  = 40;
 
 export interface NavItem {
   icon:     ReactNode;
@@ -18,17 +19,19 @@ export interface ToolShellProps {
   logo?:     ReactNode;
   footer?:   ReactNode;
   children:  ReactNode;
+  header?:   (controls: { toggleMobile: () => void; mobileOpen: boolean }) => ReactNode;
 }
 
-export function ToolShell({ navItems, logo, footer, children }: ToolShellProps) {
+export function ToolShell({ navItems, logo, footer, children, header }: ToolShellProps) {
   const [collapsed,   { toggle: toggleRail }]   = useDisclosure(false);
   const [mobileOpen,  { toggle: toggleMobile }] = useDisclosure(false);
+  const [hoveredLabel, setHoveredLabel] = useState<string | null>(null);
 
   const railWidth = collapsed ? RAIL_COLLAPSED : RAIL_EXPANDED;
 
   const rail: React.CSSProperties = {
-    background:   tokens.color.semantic.background.surface,
-    borderRight:  `1px solid ${tokens.color.semantic.border.subtle}`,
+    background:   'var(--fujin-bg-surface)',
+    borderRight:  `1px solid var(--fujin-border-subtle)`,
     display:      'flex',
     flexDirection:'column',
     transition:   `width ${tokens.transition.duration.base} ${tokens.transition.easing.default}`,
@@ -37,11 +40,11 @@ export function ToolShell({ navItems, logo, footer, children }: ToolShellProps) 
 
   const logoBar: React.CSSProperties = {
     padding:       tokens.spacing.scale.md,
-    borderBottom:  `1px solid ${tokens.color.semantic.border.subtle}`,
+    borderBottom:  `1px solid var(--fujin-border-subtle)`,
     display:       'flex',
     alignItems:    'center',
     gap:           tokens.spacing.scale.sm,
-    color:         tokens.color.semantic.text.primary,
+    color:         'var(--fujin-text-primary)',
     cursor:        'pointer',
     userSelect:    'none',
     flexShrink:    0,
@@ -56,18 +59,28 @@ export function ToolShell({ navItems, logo, footer, children }: ToolShellProps) 
   };
 
   const footerSlot: React.CSSProperties = {
-    borderTop: `1px solid ${tokens.color.semantic.border.subtle}`,
+    borderTop: `1px solid var(--fujin-border-subtle)`,
     padding:   tokens.spacing.scale.sm,
     flexShrink: 0,
   };
 
   const main: React.CSSProperties = {
-    background: tokens.color.semantic.background.base,
+    background: 'var(--fujin-bg-base)',
     minHeight:  '100vh',
+  };
+
+  const headerBar: React.CSSProperties = {
+    background:    'var(--fujin-bg-surface)',
+    borderBottom:  `1px solid var(--fujin-border-subtle)`,
+    display:       'flex',
+    alignItems:    'center',
+    padding:       `0 ${tokens.spacing.scale.md}px`,
+    height:        '100%',
   };
 
   return (
     <AppShell
+      header={header ? { height: tokens.spacing.scale.xl * 2 } : undefined}
       navbar={{
         width:     railWidth,
         breakpoint:'sm',
@@ -75,6 +88,11 @@ export function ToolShell({ navItems, logo, footer, children }: ToolShellProps) 
       }}
       padding={0}
     >
+      {header && (
+        <AppShell.Header style={headerBar}>
+          {header({ toggleMobile, mobileOpen })}
+        </AppShell.Header>
+      )}
       <AppShell.Navbar style={rail}>
 
         {/* Logo / collapse toggle */}
@@ -87,20 +105,20 @@ export function ToolShell({ navItems, logo, footer, children }: ToolShellProps) 
         <Stack gap={0} style={{ flex: 1, overflowY: 'auto', padding: `${tokens.spacing.scale.xs}px 0` }}>
           {navItems.map((item) =>
             collapsed ? (
-              <Tooltip key={item.label} label={item.label} position="right" withArrow={false}>
+              <Tooltip key={item.label} label={item.label} position="right" withArrow={false} radius={tokens.radius.default}>
                 <UnstyledButton
                   onClick={item.onClick}
                   style={{
                     display:         'flex',
                     alignItems:      'center',
                     justifyContent:  'center',
-                    height:          40,
+                    height:          NAV_ITEM_HEIGHT,
                     width:           '100%',
                     color:           item.active
-                                       ? tokens.color.semantic.text.primary
-                                       : tokens.color.semantic.text.muted,
+                                       ? 'var(--fujin-text-primary)'
+                                       : 'var(--fujin-text-muted)',
                     background:      item.active
-                                       ? tokens.color.semantic.background.elevated
+                                       ? 'var(--fujin-bg-elevated)'
                                        : 'transparent',
                   }}
                 >
@@ -108,21 +126,36 @@ export function ToolShell({ navItems, logo, footer, children }: ToolShellProps) 
                 </UnstyledButton>
               </Tooltip>
             ) : (
-              <NavLink
+              <UnstyledButton
                 key={item.label}
-                label={item.label}
-                leftSection={item.icon}
-                active={item.active}
                 onClick={item.onClick}
-                styles={{
-                  root: {
-                    borderRadius: tokens.radius.default,
-                    color: item.active
-                             ? tokens.color.semantic.text.primary
-                             : tokens.color.semantic.text.secondary,
-                  },
+                onMouseEnter={() => setHoveredLabel(item.label)}
+                onMouseLeave={() => setHoveredLabel(null)}
+                style={{
+                  display:      'flex',
+                  alignItems:   'center',
+                  gap:          tokens.spacing.scale.sm,
+                  height:       NAV_ITEM_HEIGHT,
+                  width:        '100%',
+                  padding:      `0 ${tokens.spacing.scale.sm}px`,
+                  borderRadius: tokens.radius.default,
+                  background:   item.active || hoveredLabel === item.label
+                                  ? 'var(--fujin-bg-elevated)'
+                                  : 'transparent',
+                  color:        item.active
+                                  ? 'var(--fujin-text-primary)'
+                                  : 'var(--fujin-text-secondary)',
+                  fontFamily:   tokens.typography.fontFamily.base,
+                  fontSize:     tokens.typography.fontSize.sm,
+                  cursor:       'pointer',
+                  whiteSpace:   'nowrap',
+                  overflow:     'hidden',
+                  transition:   `background ${tokens.transition.duration.base} ${tokens.transition.easing.default}`,
                 }}
-              />
+              >
+                {item.icon}
+                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.label}</span>
+              </UnstyledButton>
             )
           )}
         </Stack>

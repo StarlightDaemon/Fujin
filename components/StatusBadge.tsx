@@ -7,10 +7,14 @@ export interface StatusBadgeProps {
 }
 
 export function StatusBadge({ status, label, size = 'sm' }: StatusBadgeProps) {
-  const color =
-    status === 'neutral'
-      ? tokens.color.semantic.text.muted
-      : tokens.color.semantic.status[status];
+  const colorMap: Record<StatusBadgeProps['status'], string> = {
+    success: 'var(--fujin-status-success)',
+    danger:  'var(--fujin-status-danger)',
+    warning: 'var(--fujin-status-warning)',
+    info:    'var(--fujin-status-info)',
+    neutral: 'var(--fujin-text-muted)',
+  };
+  const color = colorMap[status];
 
   const badgeStyle: React.CSSProperties = {
     display: 'inline-flex',

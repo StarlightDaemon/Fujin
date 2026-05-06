@@ -75,7 +75,8 @@ status.info          #60a5fa
 
 ### Spacing
 ```
-base    4    (smallest unit — use for gaps inside components)
+base    4    (base unit — use for gaps inside components when xxs is too tight)
+xxs     2    (micro gaps: label→value, icon→text, tightly stacked items)
 xs      10
 sm      12
 md      16   (standard padding)
@@ -84,6 +85,12 @@ xl      24
 xxl     32
 ```
 Usage: `tokens.spacing.scale.md` returns `16` (number). Append `px` for CSS strings.
+`tokens.spacing.base` returns `4` (number). `tokens.spacing.scale.xxs` returns `2` (number).
+
+**When to use micro spacing:**
+- `gap: tokens.spacing.scale.xxs` — icon-to-text pairs, label-above-value stacks, tight inline badges
+- `gap: tokens.spacing.base`      — between items within a control group (e.g. rows in a validation list)
+- `gap: tokens.spacing.scale.xs`  — between control groups within a section
 
 ### Typography
 ```
@@ -119,6 +126,42 @@ All sizes → 0
 tokens.radius.default = 0
 ```
 
+### CSS Custom Properties — Runtime Reference
+All vars below are injected by `FujinThemeProvider` and switch automatically on theme
+toggle. Use these in every inline style object — never use raw hex values.
+
+var(--fujin-bg-base)               page/app background
+var(--fujin-bg-surface)            cards, panels, rail
+var(--fujin-bg-elevated)           dropdowns, tooltips, active nav item background
+var(--fujin-bg-overlay)            modals, overlays
+
+var(--fujin-text-primary)          headings, labels, active item text
+var(--fujin-text-secondary)        body text, inactive nav items
+var(--fujin-text-muted)            placeholders, hints, icon color
+var(--fujin-text-inverse)          text on light backgrounds
+
+var(--fujin-border-subtle)         dividers, card borders
+var(--fujin-border-default)        input borders
+var(--fujin-border-strong)         focus rings, emphasis
+
+var(--fujin-interactive-default)   primary action/button background
+var(--fujin-interactive-hover)     hovered interactive state
+var(--fujin-interactive-active)    pressed/active interactive state
+var(--fujin-interactive-disabled)  disabled interactive state
+
+var(--fujin-status-danger)         error, destructive action
+var(--fujin-status-warning)        caution
+var(--fujin-status-success)        positive outcome
+var(--fujin-status-info)           informational
+
+var(--fujin-shadow-sm)             subtle elevation
+var(--fujin-shadow-md)             card/panel elevation
+var(--fujin-shadow-lg)             modal/overlay elevation
+
+### Opacity
+tokens.opacity.disabled  0.5   — disabled controls, unavailable actions
+tokens.opacity.loading   0.7   — loading/in-progress state
+
 ---
 
 ## 3. COMPONENT API REFERENCE
@@ -143,14 +186,47 @@ interface ToolShellProps {
   logo?:     ReactNode;   // shown at top of rail; click toggles collapse
   footer?:   ReactNode;   // shown at bottom of rail (user profile, settings)
   children:  ReactNode;   // main content area
+  header?:   (controls: { toggleMobile: () => void; mobileOpen: boolean }) => ReactNode;
+  // render prop — if provided, an AppShell.Header (48px) is rendered above the rail.
+  // Use to place a burger button or top bar content. controls.toggleMobile opens the
+  // mobile rail; controls.mobileOpen reflects current state.
 }
 ```
 
 Behavior:
 - Rail expands (220px, icon + label) / collapses (60px, icon only) via logo click
 - Collapsed: labels appear as `Tooltip` on hover
-- Mobile: rail hidden by default; wire a burger button to internal `toggleMobile`
+- Mobile: rail hidden by default; pass a `header` render prop to render a top bar with
+  a burger button. The render prop receives `{ toggleMobile, mobileOpen }`.
 - `active` prop on NavItem highlights the current route
+
+Mobile usage — burger button wired to header render prop:
+
+```tsx
+import { Burger } from '@mantine/core';
+import { ToolShell } from './components';
+
+<ToolShell
+  navItems={navItems}
+  logo={logo}
+  header={({ toggleMobile, mobileOpen }) => (
+    <Burger
+      opened={mobileOpen}
+      onClick={toggleMobile}
+      hiddenFrom="sm"
+      color="var(--fujin-text-muted)"
+      size="sm"
+    />
+  )}
+>
+  {children}
+</ToolShell>
+```
+
+- `hiddenFrom="sm"` hides the burger on desktop (Mantine responsive utility prop — no custom CSS needed)
+- `color="var(--fujin-text-muted)"` passes the CSS custom property directly to Mantine's Burger line color
+- If Mantine does not accept a CSS var in the `color` prop, replace with an `UnstyledButton` wrapping three `<div>` bars styled with `background: 'var(--fujin-text-muted)'`
+- The header bar container (`AppShell.Header`) already has `display: flex; align-items: center` — the Burger renders left-aligned by default; add additional header content (title, actions) as siblings to the right
 
 ---
 
@@ -252,6 +328,54 @@ Behavior:
 
 ---
 
+### Mantine Checkbox (pattern — not a Fujin component)
+Mantine's `Checkbox` is the correct input for boolean form fields. Use it instead of a
+native `<input type="checkbox">`. Three things are required for Fujin compliance:
+
+1. `radius={tokens.radius.default}` — sets the visual indicator to sharp-edge
+2. CSS custom property `--checkbox-color` — overrides the checked fill color
+3. `styles.label` — typography tokens on the label
+
+Mantine v7 Checkbox exposes `--checkbox-color` and `--checkbox-radius` as CSS custom
+properties on the root element. Set them via `styles.root` cast to `React.CSSProperties`.
+
+```tsx
+import { Checkbox } from '@mantine/core';
+import tokens from '@tokens';
+
+<Checkbox
+  label="Enabled"
+  checked={value}
+  onChange={e => setValue(e.currentTarget.checked)}
+  radius={tokens.radius.default}
+  styles={{
+    root: {
+      '--checkbox-color':  'var(--fujin-interactive-active)',
+      '--checkbox-radius': '0px',
+    } as React.CSSProperties,
+    label: {
+      fontFamily: tokens.typography.fontFamily.base,
+      fontSize:   tokens.typography.fontSize.sm,
+      color:      'var(--fujin-text-secondary)',
+      cursor:     'pointer',
+    },
+    input: {
+      cursor:      'pointer',
+      borderColor: 'var(--fujin-border-default)',
+    },
+  }}
+/>
+```
+
+Notes:
+- Do **not** use `accentColor` — Mantine Checkbox renders a custom visual indicator, not a
+  native checkbox. `accentColor` on `styles.input` has no effect.
+- The native `<input type="checkbox">` is hidden by Mantine; `styles.input` controls
+  the hidden input's border (shown on focus ring) and cursor.
+- `--checkbox-color` accepts any CSS color string including `var(--fujin-*)` values.
+
+---
+
 ### StatusBadge
 Inline status indicator. Text only, no icons.
 
@@ -320,11 +444,215 @@ Note: `SectionHeader` does not own its bottom margin — the parent controls spa
 
 ---
 
+### FujinToastProvider
+Imperative toast notification system. Renders via React portal into `document.body`.
+
+```tsx
+import { FujinToastProvider, useToast } from './components';
+import type { ToastOptions } from './components';
+
+// Wire once at app root — inside FujinThemeProvider so CSS vars are available:
+<FujinThemeProvider>
+  <FujinToastProvider>
+    <App />
+  </FujinToastProvider>
+</FujinThemeProvider>
+
+// In any component inside the provider:
+const { show } = useToast();
+
+show({ status: 'success', title: 'Done',   message: 'Operation completed.' });
+show({ status: 'danger',                   message: 'Something went wrong.' });
+show({ status: 'warning', title: 'Notice', message: 'Check your settings.', duration: 6000 });
+show({ status: 'info',                     message: 'Persists until dismissed.', duration: false });
+```
+
+```tsx
+interface ToastOptions {
+  message:   string;
+  status:    'success' | 'danger' | 'warning' | 'info';
+  title?:    string;
+  duration?: number | false;  // ms; default 4000; false = persist until × dismissed
+}
+```
+
+Behavior:
+- Toasts stack bottom-right, column-reverse (newest at bottom, older pushed up)
+- Max 5 toasts — oldest trimmed when limit exceeded
+- Left border accent matches status color (`var(--fujin-status-*)`)
+- Enter animation: opacity + translateY on mount
+- Auto-dismiss after `duration` ms; `false` = persistent until close button clicked
+- `useToast()` throws if called outside `FujinToastProvider`
+
+---
+
+## 3.5. PAGE COMPOSITION
+
+### Provider Setup — wire once at app root
+Both providers are required. `MantineProvider` is Mantine's base; `FujinThemeProvider`
+injects the CSS custom properties.
+
+```tsx
+import { MantineProvider } from '@mantine/core';
+import { FujinThemeProvider } from './components';
+
+function Root() {
+  return (
+    <MantineProvider>
+      <FujinThemeProvider defaultMode="dark">
+        <App />
+      </FujinThemeProvider>
+    </MantineProvider>
+  );
+}
+```
+
+### Full page example
+Demonstrates: ToolShell wiring, multi-section layout, spacing ownership,
+SectionHeader + content pattern, DataCard overflow actions, DataTable with row actions.
+
+```tsx
+import { Box, Burger, UnstyledButton } from '@mantine/core';
+import {
+  ToolShell, SectionHeader, DataCard, DataTable,
+  StatusBadge, ActionMenu,
+} from './components';
+import type { NavItem, DataColumn } from './components';
+import tokens from './tokens.json';
+
+const navItems: NavItem[] = [
+  { label: 'Dashboard', icon: '⊞', active: true, onClick: () => {} },
+  { label: 'Reports',   icon: '≡', onClick: () => {} },
+  { label: 'Settings',  icon: '⚙', onClick: () => {} },
+];
+
+type Job = { id: string; name: string; status: string; created: string };
+
+const columns: DataColumn<Job>[] = [
+  { key: 'id',      label: 'ID',      sortable: true },
+  { key: 'name',    label: 'Name',    sortable: true },
+  { key: 'status',  label: 'Status',
+    render: (row) => <StatusBadge status={row.status as any} label={row.status} /> },
+  { key: 'created', label: 'Created', sortable: true },
+];
+
+export function App() {
+  return (
+    <ToolShell
+      navItems={navItems}
+      logo={
+        <span style={{
+          fontFamily: tokens.typography.fontFamily.base,
+          fontWeight: tokens.typography.fontWeight.bold,
+          color: 'var(--fujin-text-primary)',
+        }}>
+          Acme
+        </span>
+      }
+      footer={
+        <UnstyledButton style={{
+          fontFamily: tokens.typography.fontFamily.base,
+          fontSize:   tokens.typography.fontSize.sm,
+          color:      'var(--fujin-text-muted)',
+          cursor:     'pointer',
+        }}>
+          Sign out
+        </UnstyledButton>
+      }
+      header={({ toggleMobile, mobileOpen }) => (
+        <Burger
+          opened={mobileOpen}
+          onClick={toggleMobile}
+          hiddenFrom="sm"
+          color="var(--fujin-text-muted)"
+          size="sm"
+        />
+      )}
+    >
+      {/* Caller owns all layout spacing — use a single Box with gap */}
+      <Box style={{
+        padding:       tokens.spacing.scale.xl,
+        display:       'flex',
+        flexDirection: 'column',
+        gap:           tokens.spacing.scale.xl,
+      }}>
+
+        {/* Section pattern: SectionHeader owns no margin — caller adds marginTop to content */}
+        <Box>
+          <SectionHeader
+            title="Active Jobs"
+            description="Last 24 hours"
+            action={
+              <UnstyledButton style={{
+                fontFamily: tokens.typography.fontFamily.base,
+                fontSize:   tokens.typography.fontSize.sm,
+                color:      'var(--fujin-text-primary)',
+                cursor:     'pointer',
+              }}>
+                + New Job
+              </UnstyledButton>
+            }
+          />
+          <Box style={{ marginTop: tokens.spacing.scale.md }}>
+            <DataCard
+              title="Job #1042"
+              badge={<StatusBadge status="success" label="Running" />}
+              actions={[
+                { label: 'Restart',  onClick: () => {} },
+                { label: 'Logs',     onClick: () => {} },
+                { label: 'Edit',     onClick: () => {} },
+                { label: 'Delete',   danger: true, onClick: () => {} },
+              ]}
+            >
+              <span style={{
+                fontFamily: tokens.typography.fontFamily.base,
+                fontSize:   tokens.typography.fontSize.sm,
+                color:      'var(--fujin-text-secondary)',
+              }}>
+                Target: Production DB — 1,240,500 rows processed
+              </span>
+            </DataCard>
+          </Box>
+        </Box>
+
+        <Box>
+          <SectionHeader title="All Jobs" />
+          <Box style={{ marginTop: tokens.spacing.scale.md }}>
+            <DataTable
+              columns={columns}
+              rows={rows}
+              rowKey="id"
+              pageSize={20}
+              rowActions={(row) => (
+                <ActionMenu items={[
+                  { label: 'Edit',   onClick: () => {} },
+                  { label: 'Delete', danger: true, onClick: () => {} },
+                ]} />
+              )}
+            />
+          </Box>
+        </Box>
+
+      </Box>
+    </ToolShell>
+  );
+}
+```
+
+### Spacing ownership rules (summary)
+- The outer `Box` owns `padding` for the page content area
+- Sections are separated by `gap` on the outer `Box` — not by `marginBottom` on sections
+- Within a section, `marginTop` on the content `Box` (not `marginBottom` on `SectionHeader`)
+  separates the header from its content — because `SectionHeader` does not own its margins
+- No component sets its own external margins — all spacing is the caller's responsibility
+
+---
+
 ## 4. AGENT INTEGRATION NOTES
 
 ### For agents implementing Mantine UI using this toolset:
 
-1. Read `tokens.json` before writing any component. All values come from there.
+1. Read this file (`llms-full.txt`) in full before writing any component. It contains the complete token contract, CSS var reference, and page composition patterns. You do not need to open `tokens.json` directly.
 2. Do not introduce a Mantine theme override unless a specific friction point requires it. Document the reason.
 3. If a new component is needed, check if an existing component covers it via composition before creating a new one.
 4. All new components must follow the same token-import pattern as existing ones.
@@ -349,7 +677,7 @@ Sortable, paginated data table with loading and empty states. Generic over row t
 import { DataTable, type DataColumn, type SortDirection } from './components';
 
 interface DataColumn<T> {
-  key:       keyof T;
+  key:       keyof T & string;
   label:     string;
   sortable?: boolean;
   width?:    number | string;
@@ -359,12 +687,12 @@ interface DataColumn<T> {
 interface DataTableProps<T extends Record<string, unknown>> {
   columns:       DataColumn<T>[];
   rows:          T[];
-  rowKey:        keyof T;            // unique identifier field
+  rowKey:        keyof T & string;   // unique identifier field
   loading?:      boolean;
   emptyMessage?: string;             // default: 'No records found.'
   pageSize?:     number;             // omit for no pagination
   rowActions?:   (row: T) => ReactNode; // right-aligned per-row slot (use ActionMenu)
-  onSortChange?: (key: keyof T, direction: SortDirection) => void;
+  onSortChange?: (key: keyof T & string, direction: SortDirection) => void;
 }
 ```
 
@@ -398,6 +726,6 @@ Usage:
 
 ## 5. KNOWN GAPS (Planned)
 - ~~Data table~~ Done
-- Light theme semantic layer
-- Component-level token tier (for variant-heavy components)
-- React Native primitive set (consumes same tokens.json)
+- ~~Light theme semantic layer~~ Done — CSS custom properties via FujinThemeProvider; both themes active
+- Component-level token tier (for variant-heavy components) — Layer 3
+- React Native primitive set (consumes same tokens.json) — Layer 3

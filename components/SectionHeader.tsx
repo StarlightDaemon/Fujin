@@ -13,8 +13,7 @@ export function SectionHeader({ title, description, action }: SectionHeaderProps
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingBottom: `${tokens.spacing.scale.sm}px`,
-    borderBottom: `1px solid ${tokens.color.semantic.border.subtle}`,
-    marginBottom: 0,
+    borderBottom: `1px solid var(--fujin-border-subtle)`,
   };
 
   const textGroupStyle: React.CSSProperties = {
@@ -27,7 +26,7 @@ export function SectionHeader({ title, description, action }: SectionHeaderProps
     fontFamily: tokens.typography.fontFamily.base,
     fontSize: tokens.typography.fontSize.sm,
     fontWeight: tokens.typography.fontWeight.semibold,
-    color: tokens.color.semantic.text.primary,
+    color: 'var(--fujin-text-primary)',
     letterSpacing: tokens.typography.letterSpacing.wide,
     textTransform: 'uppercase',
     margin: 0,
@@ -36,7 +35,7 @@ export function SectionHeader({ title, description, action }: SectionHeaderProps
   const descriptionStyle: React.CSSProperties = {
     fontFamily: tokens.typography.fontFamily.base,
     fontSize: tokens.typography.fontSize.xs,
-    color: tokens.color.semantic.text.muted,
+    color: 'var(--fujin-text-muted)',
     margin: 0,
   };
 

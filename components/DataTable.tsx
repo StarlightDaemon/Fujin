@@ -81,8 +81,8 @@ export function DataTable<T extends Record<string, unknown>>({
 
   // Styles
   const wrapper: React.CSSProperties = {
-    background:   tokens.color.semantic.background.surface,
-    border:       `1px solid ${tokens.color.semantic.border.subtle}`,
+    background:   'var(--fujin-bg-surface)',
+    border:       `1px solid var(--fujin-border-subtle)`,
     borderRadius: tokens.radius.default,
     overflow:     'hidden',
   };
@@ -91,12 +91,12 @@ export function DataTable<T extends Record<string, unknown>>({
     fontFamily:    tokens.typography.fontFamily.base,
     fontSize:      tokens.typography.fontSize.xs,
     fontWeight:    tokens.typography.fontWeight.semibold,
-    color:         tokens.color.semantic.text.muted,
+    color:         'var(--fujin-text-muted)',
     letterSpacing: tokens.typography.letterSpacing.wide,
     textTransform: 'uppercase',
     padding:       `${tokens.spacing.scale.sm}px ${tokens.spacing.scale.md}px`,
-    borderBottom:  `1px solid ${tokens.color.semantic.border.subtle}`,
-    background:    tokens.color.semantic.background.elevated,
+    borderBottom:  `1px solid var(--fujin-border-subtle)`,
+    background:    'var(--fujin-bg-elevated)',
     userSelect:    'none',
     whiteSpace:    'nowrap',
   };
@@ -104,9 +104,9 @@ export function DataTable<T extends Record<string, unknown>>({
   const tdBase: React.CSSProperties = {
     fontFamily:    tokens.typography.fontFamily.base,
     fontSize:      tokens.typography.fontSize.sm,
-    color:         tokens.color.semantic.text.secondary,
+    color:         'var(--fujin-text-secondary)',
     padding:       `${tokens.spacing.scale.sm}px ${tokens.spacing.scale.md}px`,
-    borderBottom:  `1px solid ${tokens.color.semantic.border.subtle}`,
+    borderBottom:  `1px solid var(--fujin-border-subtle)`,
     verticalAlign: 'middle',
   };
 
@@ -117,9 +117,8 @@ export function DataTable<T extends Record<string, unknown>>({
     <Box style={wrapper}>
       <Table
         withRowBorders={false}
-        withBorder={false}
         style={{
-          opacity:    isReloading ? 0.5 : 1,
+          opacity:    isReloading ? tokens.opacity.disabled : 1,
           transition: `opacity ${tokens.transition.duration.base}`,
         }}
         highlightOnHover={!loading}
@@ -137,7 +136,7 @@ export function DataTable<T extends Record<string, unknown>>({
                   <UnstyledButton
                     onClick={() => handleSort(col.key)}
                     style={{
-                      color:         tokens.color.semantic.text.secondary,
+                      color:         'var(--fujin-text-secondary)',
                       fontFamily:    tokens.typography.fontFamily.base,
                       fontSize:      tokens.typography.fontSize.xs,
                       fontWeight:    tokens.typography.fontWeight.semibold,
@@ -166,7 +165,7 @@ export function DataTable<T extends Record<string, unknown>>({
                 colSpan={columns.length + (rowActions ? 1 : 0)}
                 style={{ ...tdBase, textAlign: 'center', padding: tokens.spacing.scale.lg, borderBottom: 'none' }}
               >
-                <Loader size={tokens.typography.fontSize.xl} color={tokens.color.semantic.text.muted} />
+                <Loader size={tokens.typography.fontSize.xl} color="var(--fujin-text-muted)" />
               </Table.Td>
             </Table.Tr>
           )}
@@ -176,7 +175,7 @@ export function DataTable<T extends Record<string, unknown>>({
             <Table.Tr>
               <Table.Td
                 colSpan={columns.length + (rowActions ? 1 : 0)}
-                style={{ ...tdBase, textAlign: 'center', color: tokens.color.semantic.text.muted, borderBottom: 'none' }}
+                style={{ ...tdBase, textAlign: 'center', color: 'var(--fujin-text-muted)', borderBottom: 'none' }}
               >
                 {emptyMessage}
               </Table.Td>
@@ -221,7 +220,7 @@ export function DataTable<T extends Record<string, unknown>>({
             style={{
               fontFamily: tokens.typography.fontFamily.base,
               fontSize:   tokens.typography.fontSize.xs,
-              color:      tokens.color.semantic.text.muted,
+              color:      'var(--fujin-text-muted)',
             }}
           >
             {(effectivePage - 1) * pageSize + 1}–{Math.min(effectivePage * pageSize, sorted.length)} of {sorted.length}
@@ -238,9 +237,9 @@ export function DataTable<T extends Record<string, unknown>>({
                 fontFamily:   tokens.typography.fontFamily.base,
                 fontSize:     tokens.typography.fontSize.xs,
                 borderRadius: tokens.radius.default,
-                border:       `1px solid ${tokens.color.semantic.border.subtle}`,
-                background:   tokens.color.semantic.background.elevated,
-                color:        tokens.color.semantic.text.secondary,
+                border:       `1px solid var(--fujin-border-subtle)`,
+                background:   'var(--fujin-bg-elevated)',
+                color:        'var(--fujin-text-secondary)',
               },
             }}
           />

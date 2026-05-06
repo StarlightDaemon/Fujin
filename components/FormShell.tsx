@@ -21,8 +21,8 @@ export function FormShell({
 }: FormShellProps) {
 
   const shell: React.CSSProperties = {
-    background:   tokens.color.semantic.background.surface,
-    border:       `1px solid ${tokens.color.semantic.border.subtle}`,
+    background:   'var(--fujin-bg-surface)',
+    border:       `1px solid var(--fujin-border-subtle)`,
     borderRadius: tokens.radius.default,
   };
 
@@ -35,7 +35,7 @@ export function FormShell({
 
   const footer: React.CSSProperties = {
     padding:        `${tokens.spacing.scale.sm}px ${tokens.spacing.scale.md}px`,
-    borderTop:      `1px solid ${tokens.color.semantic.border.subtle}`,
+    borderTop:      `1px solid var(--fujin-border-subtle)`,
     display:        'flex',
     alignItems:     'center',
     justifyContent: actions ? 'space-between' : 'flex-end',
@@ -47,23 +47,23 @@ export function FormShell({
     fontSize:     tokens.typography.fontSize.sm,
     fontWeight:   tokens.typography.fontWeight.medium,
     color:        loading
-                    ? tokens.color.semantic.interactive.disabled
-                    : tokens.color.semantic.text.primary,
+                    ? 'var(--fujin-interactive-disabled)'
+                    : 'var(--fujin-text-primary)',
     padding:      `${tokens.spacing.scale.xs}px ${tokens.spacing.scale.md}px`,
     borderRadius: tokens.radius.default,
     border:       `1px solid ${
                     loading
-                      ? tokens.color.semantic.border.subtle
-                      : tokens.color.semantic.interactive.default
+                      ? 'var(--fujin-border-subtle)'
+                      : 'var(--fujin-interactive-default)'
                   }`,
     background:   loading
-                    ? tokens.color.semantic.background.elevated
-                    : tokens.color.semantic.interactive.default,
+                    ? 'var(--fujin-bg-elevated)'
+                    : 'var(--fujin-interactive-default)',
     cursor:       loading ? 'not-allowed' : 'pointer',
     display:      'flex',
     alignItems:   'center',
     gap:          tokens.spacing.base,
-    opacity:      loading ? 0.7 : 1,
+    opacity:      loading ? tokens.opacity.loading : 1,
   };
 
   return (
@@ -82,7 +82,7 @@ export function FormShell({
               style={{
                 fontFamily: tokens.typography.fontFamily.base,
                 fontSize:   tokens.typography.fontSize.xs,
-                color:      tokens.color.semantic.status.danger,
+                color:      'var(--fujin-status-danger)',
               }}
             >
               {error}
@@ -94,7 +94,7 @@ export function FormShell({
         <div style={footer}>
           {actions && <div>{actions}</div>}
           <UnstyledButton type="submit" disabled={loading} style={submitBtn}>
-            {loading && <Loader size={12} color={tokens.color.semantic.text.muted} />}
+            {loading && <Loader size={12} color="var(--fujin-text-muted)" />}
             {submitLabel}
           </UnstyledButton>
         </div>
