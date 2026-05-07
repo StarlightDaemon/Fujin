@@ -30,11 +30,18 @@
 - `ActionMenu`       — Standalone overflow action menu (⋯ trigger)
 - `SectionHeader`    — Panel/section header with optional right-side action slot
 - `DataTable`        — Sortable, paginated data table with loading and empty states
+- `FujinToastProvider` — Imperative toast notification system via context and portals
 
 ## Import Path
 ```ts
-import { ToolShell, DataCard, WorkflowStepper, FormShell, StatusBadge, ActionMenu, SectionHeader, DataTable } from './components';
-import type { NavItem, CardAction, WorkflowStep, FormShellProps, DataColumn, SortDirection } from './components';
+import { 
+  ToolShell, DataCard, WorkflowStepper, FormShell, StatusBadge, 
+  ActionMenu, SectionHeader, DataTable, FujinToastProvider, useToast 
+} from './components';
+import type { 
+  NavItem, CardAction, WorkflowStep, FormShellProps, 
+  DataColumn, SortDirection, ToastOptions, ToastStatus 
+} from './components';
 ```
 
 ## Agent Boundaries

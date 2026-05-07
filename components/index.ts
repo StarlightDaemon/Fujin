@@ -16,7 +16,10 @@ export type { ActionMenuProps, ActionMenuItem }  from './ActionMenu';
 export type { SectionHeaderProps }               from './SectionHeader';
 export type { FormShellProps }                   from './FormShell';
 export type { DataTableProps, DataColumn, SortDirection } from './DataTable';
-export type { ThemeMode, FujinThemeProviderProps }       from './FujinThemeProvider';
+export type { FujinThemeProviderProps }       from './FujinThemeProvider';
 
 export { FujinToastProvider, useToast } from './FujinToastProvider';
 export type { FujinToastProviderProps, ToastOptions, ToastStatus } from './FujinToastProvider';
+
+export * as themes from '../themes';
+export { createFujinTheme, type FujinPreset, type MantineAccentKey } from '../themes/createFujinTheme';
