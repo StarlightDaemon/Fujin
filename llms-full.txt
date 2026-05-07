@@ -146,6 +146,18 @@ var(--fujin-shadow-sm)             subtle elevation
 var(--fujin-shadow-md)             card/panel elevation
 var(--fujin-shadow-lg)             modal/overlay elevation
 
+var(--fujin-chrome-bg)             header/statusbar background — dark in BOTH light and dark mode
+var(--fujin-chrome-text)           text/icon color for chrome zones — always light-on-dark
+var(--fujin-chrome-border)         border for chrome zones
+                                   Use these three vars (not bg-surface/text-primary) on any
+                                   fixed navigation bar, header, or status bar. This gives a
+                                   permanent dark navigation anchor regardless of light style.
+
+var(--fujin-layout-content-width)  fluid page content max-width — clamp(560px, 78vw, 2400px)
+                                   Use as maxWidth on the top-level content wrapper div. Scales
+                                   live on viewport resize. Covers tablet (landscape) through 4K.
+                                   Do not set a fixed maxWidth — reference this var instead.
+
 ### Opacity
 tokens.opacity.disabled  0.5   — disabled controls, unavailable actions
 tokens.opacity.loading   0.7   — loading/in-progress state
@@ -471,6 +483,26 @@ Behavior:
 - Enter animation: opacity + translateY on mount
 - Auto-dismiss after `duration` ms; `false` = persistent until close button clicked
 - `useToast()` throws if called outside `FujinToastProvider`
+
+---
+
+### ThemeMenu
+Gear icon button that opens a popover with Light/Dark mode toggle. Uses `useFujinTheme()`
+internally — must be rendered inside `FujinThemeProvider`. No props required.
+
+```tsx
+import { ThemeMenu } from './components';
+
+// Place anywhere inside FujinThemeProvider — typically in a status bar or nav bar:
+<ThemeMenu />
+```
+
+Behavior:
+- Gear icon button (24×24, muted color, highlights on open)
+- Popover opens `top-end` above the trigger, `borderRadius: 0`
+- Light / Dark buttons reflect active mode; clicking the inactive one calls `toggle()`
+- A placeholder section at the bottom of the popover is reserved for preset color swatches
+  (future expansion — do not fill with other content)
 
 ---
 

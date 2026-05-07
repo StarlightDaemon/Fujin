@@ -42,6 +42,9 @@ export function createFujinTheme(accent: MantineAccentKey): FujinPreset {
     '--fujin-border-subtle':        PALETTE.dark[6],
     '--fujin-border-default':       PALETTE.dark[5],
     '--fujin-border-strong':        PALETTE.dark[3],
+    '--fujin-chrome-bg':            PALETTE.dark[7],
+    '--fujin-chrome-text':          PALETTE.dark[0],
+    '--fujin-chrome-border':        PALETTE.dark[6],
     '--fujin-interactive-default':  a[6],
     '--fujin-interactive-hover':    a[7],
     '--fujin-interactive-active':   a[8],
@@ -53,20 +56,24 @@ export function createFujinTheme(accent: MantineAccentKey): FujinPreset {
     '--fujin-shadow-sm':            '0 1px 2px rgba(0,0,0,0.4)',
     '--fujin-shadow-md':            '0 2px 4px rgba(0,0,0,0.5)',
     '--fujin-shadow-lg':            '0 4px 8px rgba(0,0,0,0.6)',
+    '--fujin-layout-content-width': 'clamp(560px, 78vw, 2400px)',
   };
 
   const light: Record<string, string> = {
-    '--fujin-bg-base':              PALETTE.gray[0],
+    '--fujin-bg-base':              PALETTE.gray[3],
     '--fujin-bg-surface':           '#ffffff',
     '--fujin-bg-elevated':          PALETTE.gray[1],
-    '--fujin-bg-overlay':           PALETTE.gray[2],
+    '--fujin-bg-overlay':           '#ffffff',
     '--fujin-text-primary':         PALETTE.gray[9],
     '--fujin-text-secondary':       PALETTE.gray[7],
-    '--fujin-text-muted':           PALETTE.gray[5],
+    '--fujin-text-muted':           PALETTE.gray[6],
     '--fujin-text-inverse':         PALETTE.gray[0],
-    '--fujin-border-subtle':        PALETTE.gray[2],
-    '--fujin-border-default':       PALETTE.gray[3],
-    '--fujin-border-strong':        PALETTE.gray[6],
+    '--fujin-border-subtle':        PALETTE.gray[4],
+    '--fujin-border-default':       PALETTE.gray[5],
+    '--fujin-border-strong':        PALETTE.gray[7],
+    '--fujin-chrome-bg':            PALETTE.gray[8],
+    '--fujin-chrome-text':          PALETTE.gray[0],
+    '--fujin-chrome-border':        PALETTE.gray[7],
     '--fujin-interactive-default':  a[6],
     '--fujin-interactive-hover':    a[7],
     '--fujin-interactive-active':   a[8],
@@ -78,6 +85,7 @@ export function createFujinTheme(accent: MantineAccentKey): FujinPreset {
     '--fujin-shadow-sm':            '0 1px 2px rgba(0,0,0,0.08)',
     '--fujin-shadow-md':            '0 2px 4px rgba(0,0,0,0.12)',
     '--fujin-shadow-lg':            '0 4px 8px rgba(0,0,0,0.16)',
+    '--fujin-layout-content-width': 'clamp(560px, 78vw, 2400px)',
   };
 
   const mantine = createTheme({

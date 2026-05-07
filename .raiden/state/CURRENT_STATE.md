@@ -1,7 +1,7 @@
 # Current State
 
 - Fujin is a Mantine v7-based UI component toolset
-- 8 components exist: ToolShell, DataCard, WorkflowStepper, FormShell, StatusBadge, ActionMenu, SectionHeader, DataTable
+- 9 components exist: ToolShell, DataCard, WorkflowStepper, FormShell, StatusBadge, ActionMenu, SectionHeader, DataTable, FujinToastProvider
 - Token contract: Slate palette, 4px spacing base, Verdana typography, JetBrains Mono monospace, radius 0 everywhere
 - Dark and light themes both active — FujinThemeProvider injects CSS custom properties at runtime; toggle with `useFujinTheme().toggle()`
 - All components consume `var(--fujin-*)` CSS custom properties for color; non-color tokens (spacing, radius, typography, opacity) remain as raw values from tokens.json

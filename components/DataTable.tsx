@@ -16,7 +16,7 @@ export interface DataColumn<T> {
   render?:   (row: T) => ReactNode;
 }
 
-export interface DataTableProps<T extends Record<string, unknown>> {
+export interface DataTableProps<T extends object> {
   columns:       DataColumn<T>[];
   rows:          T[];
   rowKey:        keyof T & string;  // must point to a primitive field (string | number)
@@ -27,7 +27,7 @@ export interface DataTableProps<T extends Record<string, unknown>> {
   onSortChange?: (key: keyof T & string, direction: SortDirection) => void;
 }
 
-export function DataTable<T extends Record<string, unknown>>({
+export function DataTable<T extends object>({
   columns,
   rows,
   rowKey,

@@ -1,4 +1,7 @@
-export { createFujinTheme, type FujinPreset, type MantineAccentKey } from './createFujinTheme';
+import { createFujinTheme, type FujinPreset, type MantineAccentKey } from './createFujinTheme';
+
+export { createFujinTheme, type FujinPreset, type MantineAccentKey };
+
 export const violet = createFujinTheme('violet');
 export const indigo = createFujinTheme('indigo');
 export const blue   = createFujinTheme('blue');
