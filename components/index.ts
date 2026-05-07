@@ -19,6 +19,7 @@ export type { DataTableProps, DataColumn, SortDirection } from './DataTable';
 export type { FujinThemeProviderProps }       from './FujinThemeProvider';
 
 export { FujinToastProvider, useToast } from './FujinToastProvider';
+export { ThemeMenu } from './ThemeMenu';
 export type { FujinToastProviderProps, ToastOptions, ToastStatus } from './FujinToastProvider';
 
 export * as themes from '../themes';

@@ -39,8 +39,8 @@ function FujinVarInjector({ preset, children }: { preset: FujinPreset; children:
 
 export function FujinThemeProvider({
   children,
-  preset: accentKey = 'violet',
-  defaultMode = 'dark',
+  preset:      accentKey  = 'violet',
+  defaultMode             = 'dark',
 }: FujinThemeProviderProps) {
   const theme = createFujinTheme(accentKey);
   return (
