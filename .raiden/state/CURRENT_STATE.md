@@ -10,6 +10,13 @@
 - Dev harness at `dev/` — run with `npm run dev`; exercises all 8 components with live theme switching
 - Layer 2 complete (9 components: ToolShell, DataCard, WorkflowStepper, FormShell, StatusBadge, ActionMenu, SectionHeader, DataTable, FujinToastProvider)
 
+## WSL→macOS Migration
+- Migration remediation complete (2026-06-07)
+- All `/mnt/e/` paths replaced with `/Users/dante/Citadel/` equivalents across AGENTS.md and 10 prompt files
+- node_modules rebuilt clean on darwin-arm64 (rollup, esbuild native variants confirmed)
+- commit-msg hook permissions corrected (chmod +x)
+- Edict v0.6.1 confirmed clean
+
 ## Fujin Orientation
 
 - Read `llms.txt` and `llms-full.txt` as the primary Fujin-specific agent orientation files.
