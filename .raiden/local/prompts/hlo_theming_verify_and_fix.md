@@ -1,17 +1,17 @@
 # HLO Theming Verification + TypeScript Cleanup Brief
 
-**Repo:** `/mnt/e/HardlinkOrganizer/webapp/frontend`
+**Repo:** `/Users/dante/Citadel/HardlinkOrganizer/webapp/frontend`
 **Verification command:** `npx tsc --noEmit` from `webapp/frontend/` — target is zero errors
-**Do not modify** any files in the Fujin repo at `/mnt/e/Fujin/`
+**Do not modify** any files in the Fujin repo at `/Users/dante/Citadel/Fujin/`
 
 ---
 
 ## Context
 
-The Fujin UI kit (`/mnt/e/Fujin`) has been updated with two new features:
+The Fujin UI kit (`/Users/dante/Citadel/Fujin`) has been updated with two new features:
 
 1. **`ThemeMenu` component** — a gear icon button + popover with Light/Dark mode toggle.
-   Lives at `/mnt/e/Fujin/components/ThemeMenu.tsx`, exported from the Fujin index.
+   Lives at `/Users/dante/Citadel/Fujin/components/ThemeMenu.tsx`, exported from the Fujin index.
 
 2. **`--fujin-layout-content-width` CSS custom property** — fluid responsive max-width
    (`clamp(560px, 78vw, 2400px)`) injected by `FujinThemeProvider`.
@@ -125,5 +125,5 @@ add an explicit type to the affected `row` parameter using the correct type from
 - No `borderRadius` other than `0` — zero everywhere, no exceptions
 - No hardcoded `maxWidth` pixel values — use `var(--fujin-layout-content-width)`
 - No `@ts-ignore` or `any` casts as workarounds
-- Do not modify any file in `/mnt/e/Fujin/`
+- Do not modify any file in `/Users/dante/Citadel/Fujin/`
 - Do not modify `vite.config.ts` — it is correct

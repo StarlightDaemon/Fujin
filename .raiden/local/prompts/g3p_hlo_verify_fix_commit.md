@@ -1,8 +1,8 @@
 # G3P Brief — HLO: Verify Theming, Fix TypeScript, Commit
 
-**Repo:** `/mnt/e/HardlinkOrganizer`
-**Working dir for TS verification:** `/mnt/e/HardlinkOrganizer/webapp/frontend`
-**Do NOT modify** any files in `/mnt/e/Fujin/`
+**Repo:** `/Users/dante/Citadel/HardlinkOrganizer`
+**Working dir for TS verification:** `/Users/dante/Citadel/HardlinkOrganizer/webapp/frontend`
+**Do NOT modify** any files in `/Users/dante/Citadel/Fujin/`
 
 ---
 
@@ -121,7 +121,7 @@ Do not add `@ts-ignore` or `any` casts.
 Once `npx tsc --noEmit` exits clean, stage and commit:
 
 ```bash
-cd /mnt/e/HardlinkOrganizer
+cd /Users/dante/Citadel/HardlinkOrganizer
 git add webapp/frontend/src/ webapp/frontend/tsconfig.json
 git commit -m "feat: Fujin theming — ThemeMenu, chrome tokens, fluid layout, TSC clean
 
@@ -144,5 +144,5 @@ Commit as the repo's configured git user. Do not alter git config.
 - No `borderRadius` other than `0`
 - No hardcoded `maxWidth` pixel values
 - No `@ts-ignore` or `any` casts
-- Do not modify anything in `/mnt/e/Fujin/`
+- Do not modify anything in `/Users/dante/Citadel/Fujin/`
 - Do not modify `vite.config.ts`

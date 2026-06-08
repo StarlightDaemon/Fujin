@@ -8,7 +8,7 @@
 
 You are working on **Fujin**, a Mantine v7 React component library.
 
-**Repo root:** `/mnt/e/Fujin/`
+**Repo root:** `/Users/dante/Citadel/Fujin/`
 
 Two open loops exist in `ToolShell` (`components/ToolShell.tsx`):
 
