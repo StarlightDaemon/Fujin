@@ -1,4 +1,6 @@
 node_modules/
+dist/
+.audits/
 
 # RAIDEN audit outputs — operational findings, not framework content
 audit-reports/
