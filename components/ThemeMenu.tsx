@@ -5,7 +5,7 @@ import { useFujinTheme } from './FujinThemeProvider';
 
 function GearIcon() {
   return (
-    <span aria-hidden="true" style={{ fontSize: 14, lineHeight: 1 }}>⚙</span>
+    <span aria-hidden="true" style={{ fontSize: tokens.typography.fontSize.md, lineHeight: 1 }}>⚙</span>
   );
 }
 
@@ -42,8 +42,8 @@ export function ThemeMenu() {
       opened={open}
       onChange={setOpen}
       position="top-end"
-      offset={8}
-      radius={0}
+      offset={8} // no token candidate — literal retained
+      radius={tokens.radius.default}
       shadow="md"
     >
       <Popover.Target>
@@ -54,10 +54,10 @@ export function ThemeMenu() {
             display:        'flex',
             alignItems:     'center',
             justifyContent: 'center',
-            width:          24,
-            height:         24,
+            width:          tokens.spacing.scale.xl,
+            height:         tokens.spacing.scale.xl,
             color:          'var(--fujin-chrome-text)',
-            opacity:        open ? 1 : 0.6,
+            opacity:        open ? 1 : 0.6, // no token candidate — literal retained
             cursor:         'pointer',
             transition:     `opacity ${tokens.transition.duration.base} ${tokens.transition.easing.default}`,
           }}
@@ -70,9 +70,9 @@ export function ThemeMenu() {
         style={{
           background:   'var(--fujin-bg-surface)',
           border:       '1px solid var(--fujin-border-subtle)',
-          borderRadius: 0,
+          borderRadius: tokens.radius.default,
           padding:      tokens.spacing.scale.sm,
-          minWidth:     160,
+          minWidth:     160, // no token candidate — literal retained
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: tokens.spacing.scale.sm }}>
