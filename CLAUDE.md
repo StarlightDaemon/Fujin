@@ -7,7 +7,7 @@ Persistent context for any Claude Code session in this repo. Read this first.
 ## What Fujin Is
 
 Fujin is a **Mantine v7-based UI component library** for workstation-focused web interfaces.
-It is not a governance agent and not a backend framework. It provides 9 components, a design
+It is not a governance agent and not a backend framework. It provides 11 components, a design
 token contract, and CSS custom property theming. Central design rule: **the UI stays out of
 the way of data.** No decorative flourishes. No rounded corners. Anywhere.
 
@@ -63,7 +63,7 @@ Fujin must not touch `.raiden/writ/` (managed core) or project scaffolding.
 ## Tool Surface
 
 ```
-npm run dev        # Vite dev harness — exercises all 9 components with live theme toggle
+npm run dev        # Vite dev harness — exercises all 11 components with live theme toggle
 npm run typecheck  # tsc --noEmit
 ```
 
