@@ -31,8 +31,11 @@ removed. Mirrors the collapsed state's existing approach.
 semantic tokens become ambiguous.
 
 ## LOOP-005 — React Native Primitive Set
-**Status:** Planned (Layer 3)
-- Gate: none
+**Status:** Closed (2026-07-09)
+**Closure:** Built `native/` — token injection layer (`FujinThemeProvider` + `useTokens()`
+resolving the same `tokens.json` via the shared `themes/palette` resolvers) plus primitives
+StatusBadge, SectionHeader, DataCard. `typecheck:native` clean; `verify:native` asserts
+web/native parity. Docs in llms-full.txt section 6.
 **Detail:** A React Native component surface that consumes the same `tokens.json`. Will
 need its own injection layer to replace CSS custom properties (React Native has no CSS vars).
 StyleSheet-based approach with a `useTokens()` hook is the likely pattern.

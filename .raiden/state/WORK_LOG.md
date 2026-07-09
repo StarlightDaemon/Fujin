@@ -78,3 +78,22 @@
   the relocated "Edict v0.6.1" / "Edict v1.0.0" strings by design, as the
   dated historical record) — that residual WARN is expected and reported at
   acceptance, not a fact-home violation.
+
+### 2026-07-09 — React Native primitive set (LOOP-005)
+
+- **Did:** Built the `native/` surface. Injection layer: `native/theme/tokens.ts`
+  resolves the same `tokens.json` into a plain `FujinTokens` object by calling the
+  shared `themes/palette` `resolveDark`/`resolveLight` (the exact functions the web
+  pipeline and `export-tokens` use), re-keying `--fujin-*` CSS variable names to
+  camelCase roles; `native/theme/FujinThemeProvider.tsx` delivers it via context with
+  `useFujinTheme()`/`useTokens()` (React Native has no CSS custom properties).
+  Primitives StatusBadge, SectionHeader, DataCard mirror their web props with
+  `StyleSheet`-based styling; DataCard's overflow expands inline (no RN popover portal).
+  Added an optional `react-native` peer dep with a local ambient shim
+  (`native/types/react-native.d.ts`), a dedicated `native/tsconfig.json`, and scripts
+  `typecheck:native` + `verify:native`.
+- **Result:** `typecheck` (web) clean, `typecheck:native` clean, `verify:native`
+  passes 11 checks (22 color roles x dark/light, accent divergence, RN unit
+  conversions). Docs added as llms-full.txt section 6; llms.txt and CURRENT_STATE.md
+  updated. `tokens.json` untouched.
+- **Loops:** Closed LOOP-005.

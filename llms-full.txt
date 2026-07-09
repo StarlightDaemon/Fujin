@@ -1,6 +1,7 @@
 # Fujin UI Toolset — Full Reference
-> Version: 0.1.0 | Platform: Web (Mantine v7) + Native (planned)
+> Version: 0.1.0 | Platform: Web (Mantine v7) + Native (React Native primitive set)
 > This file is intended for agent consumption. Read llms.txt first for a quick index.
+> Web components: sections 1–5. React Native primitive set: section 6.
 
 ---
 
@@ -746,5 +747,97 @@ Usage:
 - ~~Data table~~ Done
 - ~~Light theme semantic layer~~ Done — CSS custom properties via FujinThemeProvider; both themes active
 - ~~Toast system~~ Done — Imperative FujinToastProvider portal system
-- Component-level token tier (for variant-heavy components) — Layer 3
-- React Native primitive set (consumes same tokens.json) — Layer 3
+- ~~React Native primitive set (consumes same tokens.json)~~ Done — see section 6
+- Component-level token tier (for variant-heavy components) — Layer 3, evaluated 2026-07-09, trigger not yet met (see OPEN_LOOPS LOOP-004)
+
+---
+
+## 6. REACT NATIVE PRIMITIVE SET
+
+The `native/` tree is a React Native surface that consumes the **same `tokens.json`**
+as the web layer. It ships a first slice of primitives plus the injection layer that
+replaces web CSS custom properties.
+
+### 6.1 Injection layer — why it differs from web
+
+The web layer delivers theme-aware colors as `var(--fujin-*)` CSS custom properties
+injected by `FujinThemeProvider` into a wrapping `<div>`. React Native has no CSS
+variables, so the native layer resolves the token set into a plain object and delivers
+it through React context. Components read it with the `useTokens()` hook.
+
+Parity is guaranteed structurally: `native/theme/tokens.ts` calls the SAME
+`resolveDark`/`resolveLight` functions from `themes/palette.ts` that the web pipeline
+and `scripts/export-tokens.ts` use. The `--fujin-*` CSS variable names are re-keyed to
+camelCase semantic roles (`--fujin-bg-base` → `colors.bgBase`). Web-only entries
+(`--fujin-shadow-*`, `--fujin-layout-content-width`) are dropped — they are CSS
+box-shadow / clamp() strings with no RN equivalent.
+
+```tsx
+import { FujinThemeProvider, useTokens } from '@fujin/ui/native'; // native/index.ts
+
+<FujinThemeProvider preset="violet" defaultMode="dark">
+  <App />
+</FujinThemeProvider>
+```
+
+`FujinThemeProvider` props (mirror web):
+  preset?:       MantineAccentKey  — accent key; default 'violet'
+  defaultMode?:  'dark' | 'light'  — default 'dark'
+  followSystem?: boolean           — follow OS color scheme until the user toggles
+
+Hooks:
+  useFujinTheme() → { mode, toggle, setMode, preset, setPreset, tokens }
+  useTokens()     → FujinTokens (the resolved token object; primary component hook)
+
+### 6.2 FujinTokens shape
+
+```ts
+interface FujinTokens {
+  mode: 'light' | 'dark';
+  preset: MantineAccentKey;
+  colors: Record<FujinColorRole, string>;   // 22 semantic roles, camelCase
+  spacing: { base; scale };                  // numbers, straight from tokens.json
+  fontFamily: { base; mono };
+  fontSize: { xs; sm; md; ... };             // numbers
+  fontWeight: { regular; medium; semibold; bold };  // STRINGS ('400'..'700') for RN
+  lineHeight: { tight; base; relaxed };      // unitless multipliers
+  letterSpacing: { tight; base; wide; widest };     // em FACTORS (numbers)
+  radius: { default: 0; ... };
+  opacity: { disabled; loading };
+}
+```
+
+RN unit conversions the injection layer standardizes (RN differs from CSS):
+- `fontWeight` is a string in RN → tokens are stringified ('600', not 600).
+- `lineHeight` in RN is absolute points, not a multiplier → multiply by fontSize:
+  `lineHeight: fontSize * t.lineHeight.tight`.
+- `letterSpacing` in RN is absolute points, not em → multiply by fontSize:
+  `letterSpacing: fontSize * t.letterSpacing.wide`.
+- `radius.default` is `0` — the sharp-edge mandate holds on native.
+
+### 6.3 Primitives (this slice)
+
+Mirror the web props one-to-one; colors come from `useTokens()`, styles via
+`StyleSheet.create` memoized on the token set.
+
+- `StatusBadge`  — `{ status, label, size? }`; `<View>` + `<Text>`, bordered, uppercase.
+- `SectionHeader`— `{ title, description?, action? }`; bottom-bordered row, no external margin.
+- `DataCard`     — `{ title, badge?, children, detail?, actions?, defaultOpen? }`;
+                   disclosure toggle + progressive action disclosure. RN has no popover
+                   portal, so overflow actions (beyond the first 2) expand INLINE below
+                   the footer instead of into a floating menu.
+
+Deferred (web-only Mantine machinery — portals, Stepper, AppShell): ToolShell,
+DataTable, WorkflowStepper, ActionMenu, FormShell, FujinToastProvider, ThemeMenu.
+These need RN-native reimplementations of popovers/overlays and are out of scope for
+the primitive slice.
+
+### 6.4 Tooling
+
+- `native/types/react-native.d.ts` — minimal ambient shim for the RN surface used.
+  React Native is an OPTIONAL peer dependency (consumers bring it); it is not installed
+  here, so the shim lets `tsc` typecheck native sources without the RN toolchain.
+- `npm run typecheck:native` — `tsc -p native/tsconfig.json` (own config; drops DOM lib).
+- `npm run verify:native` — runs `native/verify-tokens.ts` (tsx), asserting web/native
+  color parity, accent/mode divergence, and the RN unit conversions. Native analogue of
+  `export-tokens`.

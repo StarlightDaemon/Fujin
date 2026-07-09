@@ -6,13 +6,22 @@
   "scripts": {
     "dev": "vite dev --config dev/vite.config.ts",
     "typecheck": "tsc --noEmit",
-    "export-tokens": "tsx scripts/export-tokens.ts"
+    "typecheck:native": "tsc --noEmit -p native/tsconfig.json",
+    "export-tokens": "tsx scripts/export-tokens.ts",
+    "verify:native": "tsx native/verify-tokens.ts"
   },
   "peerDependencies": {
     "@mantine/core": "^7.0.0",
     "@mantine/hooks": "^7.0.0",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "react-native": ">=0.72.0"
+  },
+  "peerDependenciesMeta": {
+    "@mantine/core": { "optional": true },
+    "@mantine/hooks": { "optional": true },
+    "react-dom": { "optional": true },
+    "react-native": { "optional": true }
   },
   "devDependencies": {
     "@mantine/core": "^7.0.0",

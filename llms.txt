@@ -4,8 +4,10 @@
 
 ## Repository Structure
 - `tokens.json`         — Single source of truth for all design values
-- `components/`         — All UI components
-- `llms-full.txt`       — Full component API reference and usage examples
+- `components/`         — Web UI components (Mantine v7)
+- `native/`             — React Native primitive set + native token injection layer (useTokens)
+- `themes/`             — Shared token → semantic-role resolvers (used by web and native)
+- `llms-full.txt`       — Full component API reference and usage examples (native surface: section 6)
 
 ## Core Rules (Non-Negotiable)
 1. All colors, spacing, radius, and typography MUST reference `tokens.json`. No hardcoded values.

@@ -9,6 +9,7 @@
 - Package infrastructure in place: `package.json`, `tsconfig.json`
 - Dev harness at `dev/` — run with `npm run dev`; exercises all 11 components with live theme switching
 - Layer 2 complete (11 components: ToolShell, DataCard, WorkflowStepper, FormShell, StatusBadge, ActionMenu, SectionHeader, DataTable, FujinToastProvider, ThemeMenu, FujinThemeProvider)
+- React Native primitive set at `native/` (LOOP-005): native injection layer (`FujinThemeProvider` + `useTokens()`) resolving the same `tokens.json` via the shared `themes/palette` resolvers — no CSS vars — plus primitives StatusBadge, SectionHeader, DataCard. `react-native` is an optional peer dep with a local ambient shim; gated by `npm run typecheck:native` and `npm run verify:native` (web/native parity). Full API in llms-full.txt section 6.
 
 ## WSL→macOS Migration
 
