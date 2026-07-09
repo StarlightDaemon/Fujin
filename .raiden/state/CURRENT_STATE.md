@@ -1,7 +1,5 @@
 # Current State
 
-Last Updated: 2026-07-08
-
 - Fujin is a Mantine v7-based UI component toolset
 - 11 components exist: ToolShell, DataCard, WorkflowStepper, FormShell, StatusBadge, ActionMenu, SectionHeader, DataTable, FujinToastProvider, ThemeMenu, FujinThemeProvider
 - Token contract: Slate palette, 4px spacing base, Verdana typography, JetBrains Mono monospace, radius 0 everywhere
@@ -13,11 +11,8 @@ Last Updated: 2026-07-08
 - Layer 2 complete (11 components: ToolShell, DataCard, WorkflowStepper, FormShell, StatusBadge, ActionMenu, SectionHeader, DataTable, FujinToastProvider, ThemeMenu, FujinThemeProvider)
 
 ## WSL→macOS Migration
-- Migration remediation complete (2026-06-07)
-- All `/mnt/e/` paths replaced with `/Users/dante/Citadel/` equivalents across AGENTS.md and 10 prompt files
-- node_modules rebuilt clean on darwin-arm64 (rollup, esbuild native variants confirmed)
-- commit-msg hook permissions corrected (chmod +x)
-- Edict v1.0.0 confirmed clean (updated 2026-06-12, commit 351b432)
+
+See LOOP-001.
 
 ## Fujin Orientation
 

@@ -36,3 +36,45 @@
   colorMap; package.json + tsconfig.json added; Vite dev harness created at dev/ with
   mock data for all components and live theme toggle; TypeScript typecheck clean;
   light theme now fully functional via FujinThemeProvider CSS var injection.
+
+### 2026-07-09 — Edict v2.0.0 + state normalization
+
+- **Did:** Ran the Edict v2.0.0 update against this Instance (plan → apply →
+  re-plan clean): README.md, OPERATING_RULES.md, WORKSPACE_AUDIT_PROTOCOL.md,
+  FORK_REVIEW_PROTOCOL.md, and .raiden/writ/AGENTS.md updated; ROUTING_POLICY.md
+  added; MODEL_TIERS.md removed via the managed-file-removal path (expected
+  `managed_file_removal` warn on plan); commit-msg hook carried forward
+  unchanged. Stamped `state_schema_version: 2` into
+  `.raiden/instance/metadata.json`. Replaced the gitignored
+  `.raiden/local/MODEL_MAP.md` tier overlay with `.raiden/local/ROUTING.md`
+  (R1-R4 ladder + offload pool; the offload-pool rule carries forward Fujin's
+  own "G31P Offload Boundary" decision fleet-wide) and dropped the now-dead
+  `.raiden/local/.gitignore` entry. Moved the ~55-line root `CLAUDE.md`
+  verbatim to `.raiden/local/rules/legacy-claude-guidance.md` (with an origin/
+  supersession header) and reduced root `CLAUDE.md` to a 2-line pointer to
+  `AGENTS.md`, per the new CLAUDE.md-pointer rule.
+- **Result:** Instance at Edict v2.0.0, root AGENTS.md's "Fujin Hard Rules"
+  section and `tokens.json` untouched (byte-identical / unmodified) throughout.
+- **Relocated (state normalization, Fact-Home Rule):**
+  - `.raiden/state/OPEN_LOOPS.md`, WSL→macOS Migration Remediation entry
+    (now LOOP-001): removed the sentence "Edict v0.6.1 confirmed clean." —
+    the P1-P4 remediation detail itself is unchanged and stays in that entry.
+  - `.raiden/state/CURRENT_STATE.md`, "WSL→macOS Migration" section: removed
+    the bullet "Edict v1.0.0 confirmed clean (updated 2026-06-12, commit
+    351b432)" and the rest of that section's restated migration detail
+    (already carried by LOOP-001); the section now reads "See LOOP-001."
+  - Assigned citable IDs LOOP-001..LOOP-005 to the existing
+    `.raiden/state/OPEN_LOOPS.md` entries (previously untitled by ID) so
+    CURRENT_STATE.md can cite rather than restate them.
+- **Removed (no unique content beyond what git history already carries):**
+  the hand-written "Last Updated: 2026-07-08" footer in
+  `.raiden/state/CURRENT_STATE.md`.
+- **Loops:** Advanced LOOP-001 (id assigned; version-prose trimmed). No loops
+  opened or closed by this entry.
+- **Next:** Run `doctor` and confirm `claude_md_substantive` and
+  `version_prose` are clear on `.raiden/state/CURRENT_STATE.md` and
+  `.raiden/state/OPEN_LOOPS.md`; note that this WORK_LOG.md entry itself will
+  still trip the mechanical `version_prose` lint (it names "Edict v2.0.0" and
+  the relocated "Edict v0.6.1" / "Edict v1.0.0" strings by design, as the
+  dated historical record) — that residual WARN is expected and reported at
+  acceptance, not a fact-home violation.
