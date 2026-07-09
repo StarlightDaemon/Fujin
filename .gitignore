@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .audits/
+.serena/
 
 # RAIDEN audit outputs — operational findings, not framework content
 audit-reports/
