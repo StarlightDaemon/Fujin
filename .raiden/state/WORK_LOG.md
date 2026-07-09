@@ -110,3 +110,19 @@
   identical semantic values today. The native set added no new ambiguity.
 - **Loops:** LOOP-004 left Planned with a dated assessment note; not closed (trigger
   condition unmet by design).
+
+### 2026-07-09 — Native CardAction icon parity + contrast finding recorded
+
+- **Did:** Verification-probe follow-up. Restored the `icon?: ReactNode` field on the
+  native `CardAction` interface (`native/components/DataCard.tsx`) — it had been dropped
+  from the web interface the primitives claim to mirror. Icon renders in a row `View`
+  with `gap: spacing.base` beside the label, the RN equivalent of the web version's
+  `Group gap={tokens.spacing.base}` placement, in both primary and overflow action rows.
+  Separately recorded the probe's WorkflowStepper finding as a new loop: the primary nav
+  button pairs theme-relative `text-primary` with the theme-invariant
+  `interactive-default` accent background, risking low contrast in light mode and on
+  mid-lightness presets.
+- **Result:** Native `CardAction` now matches web one-to-one, keeping the llms-full.txt
+  section 6.3 mirror claim accurate. `typecheck`, `typecheck:native`, and
+  `verify:native` all green. Contrast issue is committed truth, not fixed (out of scope).
+- **Loops:** Opened LOOP-006 (WorkflowStepper primary button contrast). No loops closed.

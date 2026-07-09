@@ -50,3 +50,18 @@ web/native parity. Docs in llms-full.txt section 6.
 **Detail:** A React Native component surface that consumes the same `tokens.json`. Will
 need its own injection layer to replace CSS custom properties (React Native has no CSS vars).
 StyleSheet-based approach with a `useTokens()` hook is the likely pattern.
+
+## LOOP-006 — WorkflowStepper Primary Button Contrast
+**Status:** Open
+- Gate: none
+**Detail:** `components/WorkflowStepper.tsx` renders the primary nav button ("Next →" /
+"Complete") with `color: var(--fujin-text-primary)` over `background:
+var(--fujin-interactive-default)`. `text-primary` is theme-relative (light gray `dark[0]`
+in dark mode, near-black `gray[9]` in light mode) while the accent background is
+theme-invariant (shade 6 of the active preset, e.g. violet `#7950f2`), so legibility
+depends on the mode/preset combination — light-mode near-black-on-accent and
+mid-lightness presets (cyan, teal, green) risk falling below comfortable contrast.
+Text on an accent fill should use a fixed on-accent role (e.g. `text-inverse` or a new
+on-interactive semantic token) rather than a theme-relative one; a native WorkflowStepper
+port would inherit the same mapping, so resolve the token choice at the semantic layer
+first.

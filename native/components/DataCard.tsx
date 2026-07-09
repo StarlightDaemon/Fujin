@@ -6,6 +6,7 @@ import type { FujinTokens } from '../theme/tokens';
 
 export interface CardAction {
   label: string;
+  icon?: ReactNode;
   onClick: () => void;
   danger?: boolean;
   disabled?: boolean;
@@ -47,6 +48,8 @@ export function DataCard({
         ? t.colors.statusDanger
         : t.colors.textSecondary;
 
+  // Web renders icon + label inside a Group gap={tokens.spacing.base};
+  // the row View below is the RN equivalent.
   const renderAction = (a: CardAction) => (
     <Pressable
       key={a.label}
@@ -54,7 +57,10 @@ export function DataCard({
       disabled={a.disabled}
       style={[styles.actionBtn, a.disabled ? styles.actionBtnDisabled : null]}
     >
-      <Text style={[styles.actionLabel, { color: actionColor(a) }]}>{a.label}</Text>
+      <View style={styles.actionContent}>
+        {a.icon ? <View>{a.icon}</View> : null}
+        <Text style={[styles.actionLabel, { color: actionColor(a) }]}>{a.label}</Text>
+      </View>
     </Pressable>
   );
 
@@ -177,6 +183,11 @@ function makeStyles(t: FujinTokens) {
     },
     actionBtnDisabled: {
       opacity: t.opacity.disabled,
+    },
+    actionContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: t.spacing.base,
     },
     actionLabel: {
       fontFamily: t.fontFamily.base,
