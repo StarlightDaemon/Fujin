@@ -25,12 +25,14 @@ removed. Mirrors the collapsed state's existing approach.
 
 ## LOOP-004 — Component-Level Token Tier
 **Status:** Planned (Layer 3)
+- Gate: none
 **Detail:** For variant-heavy components, add a component-token namespace to `tokens.json`
 (e.g. `tokens.components.button.*`). Not needed until a component has enough variants that
 semantic tokens become ambiguous.
 
 ## LOOP-005 — React Native Primitive Set
 **Status:** Planned (Layer 3)
+- Gate: none
 **Detail:** A React Native component surface that consumes the same `tokens.json`. Will
 need its own injection layer to replace CSS custom properties (React Native has no CSS vars).
 StyleSheet-based approach with a `useTokens()` hook is the likely pattern.
