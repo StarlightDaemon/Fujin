@@ -97,3 +97,16 @@
   conversions). Docs added as llms-full.txt section 6; llms.txt and CURRENT_STATE.md
   updated. `tokens.json` untouched.
 - **Loops:** Closed LOOP-005.
+
+### 2026-07-09 — Component-level token tier evaluation (LOOP-004)
+
+- **Did:** Audited every variant-bearing component across the web set and the new
+  `native/` set for the LOOP-004 trigger ("a component has enough variants that
+  semantic tokens become ambiguous").
+- **Result:** Trigger not met. Every variant (StatusBadge status×size, DataCard
+  action states, WorkflowStepper primary/ghost, FormShell loading, ActionMenu
+  danger/disabled) resolves 1:1 to an existing semantic token; size variants only
+  select from the existing scales. A `tokens.components.*` namespace would only alias
+  identical semantic values today. The native set added no new ambiguity.
+- **Loops:** LOOP-004 left Planned with a dated assessment note; not closed (trigger
+  condition unmet by design).

@@ -25,7 +25,18 @@ removed. Mirrors the collapsed state's existing approach.
 
 ## LOOP-004 — Component-Level Token Tier
 **Status:** Planned (Layer 3)
-- Gate: none
+- Gate: trigger not met — a component with variants whose styling cannot be expressed by a single existing semantic token
+**Assessment (2026-07-09):** Audited every variant-bearing component across web and the
+new `native/` set (StatusBadge status×size, DataCard action states, WorkflowStepper
+navBtn primary/ghost, FormShell submit loading, ActionMenu danger/disabled). In each,
+every variant maps 1:1 to one existing semantic token (`interactive.*`, `status.*`,
+`text.*`, `border.*`); size variants only pick from the existing spacing/fontSize scales.
+No ambiguity exists. A `tokens.components.button.*` namespace would today only alias
+identical semantic values — premature indirection, which this loop explicitly defers.
+The native set introduced no new ambiguity (it mirrors the same variant→semantic mappings).
+Verdict: trigger not met; leave Planned. Revisit when a variant needs a value no single
+semantic token expresses (e.g. a primary button on a chrome bar needing a background
+distinct from `interactive.default`).
 **Detail:** For variant-heavy components, add a component-token namespace to `tokens.json`
 (e.g. `tokens.components.button.*`). Not needed until a component has enough variants that
 semantic tokens become ambiguous.
