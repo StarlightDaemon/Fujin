@@ -1,6 +1,6 @@
 # HLO TypeScript Error Cleanup Brief
 
-**Repo:** `/Users/dante/Citadel/HardlinkOrganizer/webapp/frontend`
+**Repo:** `E:\Citadel/HardlinkOrganizer/webapp/frontend`
 **Run after changes:** `npx tsc --noEmit` from `webapp/frontend/` — target is zero errors
 **Do not modify** any files outside `webapp/frontend/src/` and `webapp/frontend/tsconfig.json`
 
@@ -19,7 +19,7 @@ remaining work is entirely in `tsconfig.json` and the HLO source files.
 **File:** `webapp/frontend/tsconfig.json`
 
 The `paths` block uses `../../` to reach the sibling Fujin repo, but the tsconfig lives at
-`webapp/frontend/`, so it needs `../../../` (three levels up) to reach `/Users/dante/Citadel/Fujin/`.
+`webapp/frontend/`, so it needs `../../../` (three levels up) to reach `E:\Citadel/Fujin/`.
 
 **Fix — replace the entire `paths` block:**
 
@@ -79,7 +79,7 @@ used, keep those and remove only `scanning`.
 After all changes, run:
 
 ```
-cd /Users/dante/Citadel/HardlinkOrganizer/webapp/frontend
+cd E:\Citadel/HardlinkOrganizer/webapp/frontend
 npx tsc --noEmit
 ```
 

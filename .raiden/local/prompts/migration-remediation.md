@@ -55,8 +55,8 @@ Still open:
 3. Verify git status --porcelain is empty.
 4. Signal to the operator: Fujin is ready for the RAIDEN central agent to run the
    v0.4.0 migration prompt from
-   /Users/dante/Citadel/Raiden/toolkit/prompts/audit-protocol-migration-v0.4.0-prompt.md
-   targeting --instance /Users/dante/Citadel/Fujin. (v0.3.0 skipped; v0.4.0 applied directly.)
+   E:\Citadel/Raiden/toolkit/prompts/audit-protocol-migration-v0.4.0-prompt.md
+   targeting --instance E:\Citadel/Fujin. (v0.3.0 skipped; v0.4.0 applied directly.)
 
 Additional note: the step-2 session noted that Fujin still has untracked repo files
 (components/, tokens.json, llms*.txt, writ/) beyond node_modules/. These are separate

@@ -1,4 +1,4 @@
-You are the Fujin Instance agent, operating inside /Users/dante/Citadel/Fujin (or wherever Fujin is checked out).
+You are the Fujin Instance agent, operating inside E:\Citadel/Fujin (or wherever Fujin is checked out).
 
 Read first:
 - AGENTS.md
@@ -35,10 +35,10 @@ Still open:
 1. Run `git log --oneline -5` — confirm whether .raiden/ and AGENTS.md are already tracked.
 2. Run `git status --porcelain` — confirm expected files only; stop if unexpected.
 3. Run `grep installed_edict_version .raiden/instance/metadata.json` → expect "0.4.0"
-4. Run from /Users/dante/Citadel/Raiden/toolkit/updater/:
+4. Run from E:\Citadel/Raiden/toolkit/updater/:
      python3 -m raiden_updater.cli plan \
-       --instance /Users/dante/Citadel/Fujin \
-       --package /Users/dante/Citadel/Raiden/toolkit/updater/fixtures/sample_package
+       --instance E:\Citadel/Fujin \
+       --package E:\Citadel/Raiden/toolkit/updater/fixtures/sample_package
    → expect: Block reason: Already up to date — no changes needed
 5. Commit. If .raiden/ not yet in git history: commit AGENTS.md + .raiden/ (entire dir).
    If already committed, include only:

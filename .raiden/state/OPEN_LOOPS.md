@@ -4,7 +4,7 @@
 **Status:** Resolved (2026-06-07)
 **Detail:** Four findings executed:
 - P1: `.git/hooks/commit-msg` permissions corrected from 666 to 755.
-- P2: `AGENTS.md` line 28 — `/mnt/e/Raiden/` replaced with `/Users/dante/Citadel/Raiden/`.
+- P2: `AGENTS.md` line 28 — `/mnt/e/Raiden/` replaced with `E:\Citadel/Raiden/`.
 - P3: `node_modules` deleted and rebuilt on darwin-arm64; typecheck clean; 2 moderate dev-only vuln (esbuild CORS, vite dep — breaking fix deferred).
 - P4: 10 prompt files in `.raiden/local/prompts/` updated; zero `/mnt/e/` references remain.
 

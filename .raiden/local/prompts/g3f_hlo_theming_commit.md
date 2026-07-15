@@ -1,6 +1,6 @@
 # HLO Commit — Mantine theming provider update
 
-**Repo:** `/Users/dante/Citadel/HardlinkOrganizer`
+**Repo:** `E:\Citadel/HardlinkOrganizer`
 **Task:** Stage and commit pending changes. Nothing else — no edits, no analysis.
 
 ---
@@ -20,7 +20,7 @@ internally and accepts a `preset` prop. One file in HLO needed updating to match
 ## Exact commands to run
 
 ```
-cd /Users/dante/Citadel/HardlinkOrganizer
+cd E:\Citadel/HardlinkOrganizer
 git add webapp/frontend/src/main.tsx
 git commit -m "chore: update FujinThemeProvider usage for preset-based theming kit
 

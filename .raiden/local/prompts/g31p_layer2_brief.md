@@ -8,7 +8,7 @@
 
 You are working on **Fujin**, a Mantine v7 React component library.
 
-**Repo root:** `/Users/dante/Citadel/Fujin/`
+**Repo root:** `E:\Citadel/Fujin/`
 
 **File layout:**
 ```
@@ -94,7 +94,7 @@ component — it's still needed for spacing, radius, and typography values.
 
 Create these two files at repo root.
 
-### `/Users/dante/Citadel/Fujin/package.json`
+### `E:\Citadel/Fujin/package.json`
 ```json
 {
   "name": "@fujin/ui",
@@ -126,7 +126,7 @@ Create these two files at repo root.
 }
 ```
 
-### `/Users/dante/Citadel/Fujin/tsconfig.json`
+### `E:\Citadel/Fujin/tsconfig.json`
 ```json
 {
   "compilerOptions": {

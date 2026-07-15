@@ -11,7 +11,7 @@ You are working on **Fujin**, a Mantine v7 React component library.
 This pass closes out Layer 2 by updating RAIDEN state files and agent orientation documents
 to reflect work completed in this session.
 
-**Repo root:** `/Users/dante/Citadel/Fujin/`
+**Repo root:** `E:\Citadel/Fujin/`
 
 **What happened in this session (your source of truth for all updates below):**
 - CSS custom property migration: all 8 components now consume `var(--fujin-*)` for every

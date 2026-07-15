@@ -1,7 +1,7 @@
 # Fujin Theming Kit — G3.1P Build Brief
 
-**Repo:** `/Users/dante/Citadel/Fujin`
-**Governance:** `/Users/dante/Citadel/Fujin/llms-full.txt` (read for context, you will be modifying it)
+**Repo:** `E:\Citadel/Fujin`
+**Governance:** `E:\Citadel/Fujin/llms-full.txt` (read for context, you will be modifying it)
 **Task:** Implement a Mantine-native color theming system for Fujin. No new features — this
 replaces the existing hardcoded slate palette with Mantine's Open Color system + a preset factory.
 
@@ -345,7 +345,7 @@ useFujinTheme() returns { mode: 'dark'|'light', toggle: () => void, preset: Fuji
 
 ---
 
-## 5. HLO main.tsx (`/Users/dante/Citadel/HardlinkOrganizer/webapp/frontend/src/main.tsx`)
+## 5. HLO main.tsx (`E:\Citadel/HardlinkOrganizer/webapp/frontend/src/main.tsx`)
 
 Replace:
 ```tsx
@@ -398,4 +398,4 @@ Before finishing, verify:
 5. tokens.json color block contains no hex values — only the source declaration
 6. HLO main.tsx has no MantineProvider import
 7. llms-full.txt Section 2 shows Open Color values, not slate
-8. Run: grep -r "#0f172a\|#1e293b\|#334155\|#f8fafc" /Users/dante/Citadel/Fujin/components/ — should return nothing
+8. Run: grep -r "#0f172a\|#1e293b\|#334155\|#f8fafc" E:\Citadel/Fujin/components/ — should return nothing
