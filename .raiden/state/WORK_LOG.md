@@ -61,7 +61,7 @@
     the P1-P4 remediation detail itself is unchanged and stays in that entry.
   - `.raiden/state/CURRENT_STATE.md`, "WSL→macOS Migration" section: removed
     the bullet "Edict v1.0.0 confirmed clean (updated 2026-06-12, commit
-    351b432)" and the rest of that section's restated migration detail
+    a51fd72)" and the rest of that section's restated migration detail
     (already carried by LOOP-001); the section now reads "See LOOP-001."
   - Assigned citable IDs LOOP-001..LOOP-005 to the existing
     `.raiden/state/OPEN_LOOPS.md` entries (previously untitled by ID) so
