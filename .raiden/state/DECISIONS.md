@@ -131,6 +131,17 @@ absolute wording and should be corrected the next time that file is regenerated.
 
 ---
 
+## Policy: Corrections to Gitignored `.audits/` Files Must Also Land in DECISIONS.md (2026-07-26)
+
+**Decision:** `.audits/` stays gitignored by design. Any correction or
+annotation made to a file inside `.audits/` must also be recorded as its own
+entry in this file, because the gitignored file will not otherwise survive a
+clean clone or a hard reset. This is a standing rule, not specific to any one
+finding — see `AGENTS.md` B6. (The F10 annotation below is the first
+application of it, not the policy itself.)
+
+---
+
 ## Correction: Audit Finding F10 Is Stale on Its Consumer Claim (2026-07-26)
 
 **Decision:** `.audits/Fujin_AUDIT_2026-07-14.md` finding **F10** has been

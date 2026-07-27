@@ -307,3 +307,14 @@ Fujin is a Mantine v7-based UI component toolset. It is **not** a governance age
 
 Tags are the distribution mechanism (Part A1). An untagged commit is not
 consumable.
+
+## B6. Audit-tracking policy
+
+`.audits/` is gitignored by design (see `.gitignore`) — audit output is
+operator tooling, not framework content. That means any correction or
+annotation made to a file inside `.audits/` does **not** survive a clean
+clone or a hard reset on its own. Whenever you annotate or correct a file in
+`.audits/`, also record the same correction as its own dated entry in
+`.raiden/state/DECISIONS.md`. The `DECISIONS.md` entry is the durable copy;
+the in-place annotation is a convenience for whoever is already reading that
+audit file.
