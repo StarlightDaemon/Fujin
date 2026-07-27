@@ -14,6 +14,12 @@ Fujin is a **design token source with generated build outputs**. It is not
 primarily a component package. The unit of distribution is a token value in the
 format your project can actually consume.
 
+For the full walkthrough — architecture, installation, worked examples for
+Mantine, framework-free/Shadow DOM, and non-JS consumers, the alias
+anti-pattern, and known gotchas — see
+[`docs/INTEGRATION_GUIDE.md`](docs/INTEGRATION_GUIDE.md). This section stays
+terse by design; that document is the reference.
+
 ## A1. Install
 
 Fujin is consumed via a **git install pinned to a tag**. It is not on any public
