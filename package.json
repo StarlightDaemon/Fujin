@@ -1,27 +1,88 @@
 {
   "name": "@fujin/ui",
   "version": "0.1.0",
-  "private": true,
+  "description": "Token-driven, sharp-edged UI toolset for Mantine v7 (web) and React Native. DTCG token source with generated CSS / JS / Mantine build outputs.",
+  "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StarlightDaemon/Fujin.git"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/tokens.d.ts",
+      "default": "./dist/tokens.js"
+    },
+    "./mantine": {
+      "types": "./dist/mantine-theme.d.ts",
+      "default": "./dist/mantine-theme.js"
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./tokens.json": "./tokens.json",
+    "./tokens-resolved.json": "./dist/tokens-resolved.json",
+    "./components": "./components/index.ts",
+    "./themes": "./themes/index.ts",
+    "./native": "./native/index.ts",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/tokens.js",
+  "types": "./dist/tokens.d.ts",
+  "files": [
+    "dist",
+    "components",
+    "themes",
+    "native",
+    "tokens.json",
+    "style-dictionary.config.mjs",
+    "scripts",
+    "llms.txt",
+    "llms-full.txt",
+    "AGENTS.md",
+    "CONSUMERS.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
     "dev": "vite dev --config dev/vite.config.ts",
+    "build": "node scripts/build-tokens.mjs",
+    "prepare": "node scripts/build-tokens.mjs",
+    "prepublishOnly": "node scripts/no-registry-publish.mjs",
     "typecheck": "tsc --noEmit",
     "typecheck:native": "tsc --noEmit -p native/tsconfig.json",
-    "export-tokens": "tsx scripts/export-tokens.ts",
-    "verify:native": "tsx native/verify-tokens.ts"
+    "export-tokens": "node scripts/build-tokens.mjs",
+    "verify:native": "tsx native/verify-tokens.ts",
+    "verify": "npm run build && npm run verify:build && npm run typecheck && npm run typecheck:native && npm run verify:native",
+    "verify:build": "node scripts/verify-build.mjs"
   },
   "peerDependencies": {
     "@mantine/core": "^7.0.0",
     "@mantine/hooks": "^7.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
     "react-native": ">=0.72.0"
   },
   "peerDependenciesMeta": {
-    "@mantine/core": { "optional": true },
-    "@mantine/hooks": { "optional": true },
-    "react-dom": { "optional": true },
-    "react-native": { "optional": true }
+    "@mantine/core": {
+      "optional": true
+    },
+    "@mantine/hooks": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "react-native": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@mantine/core": "^7.0.0",
@@ -31,8 +92,9 @@
     "@vitejs/plugin-react": "^4.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "typescript": "^5.0.0",
+    "style-dictionary": "^5.5.0",
     "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
     "vite": "^5.0.0"
   }
 }

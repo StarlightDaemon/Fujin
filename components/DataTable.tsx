@@ -1,7 +1,7 @@
 import { Box, Loader, Pagination, Table, Text, UnstyledButton } from '@mantine/core';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import tokens from '../tokens.json';
+import tokens from '../dist/tokens.js';
 
 export type SortDirection = 'asc' | 'desc';
 
@@ -82,7 +82,7 @@ export function DataTable<T extends object>({
   // Styles
   const wrapper: React.CSSProperties = {
     background:   'var(--fujin-bg-surface)',
-    border:       `1px solid var(--fujin-border-subtle)`,
+    border:       `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     borderRadius: tokens.radius.default,
     overflow:     'hidden',
   };
@@ -95,7 +95,7 @@ export function DataTable<T extends object>({
     letterSpacing: tokens.typography.letterSpacing.wide,
     textTransform: 'uppercase',
     padding:       `${tokens.spacing.scale.sm}px ${tokens.spacing.scale.md}px`,
-    borderBottom:  `1px solid var(--fujin-border-subtle)`,
+    borderBottom:  `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     background:    'var(--fujin-bg-elevated)',
     userSelect:    'none',
     whiteSpace:    'nowrap',
@@ -106,7 +106,7 @@ export function DataTable<T extends object>({
     fontSize:      tokens.typography.fontSize.sm,
     color:         'var(--fujin-text-secondary)',
     padding:       `${tokens.spacing.scale.sm}px ${tokens.spacing.scale.md}px`,
-    borderBottom:  `1px solid var(--fujin-border-subtle)`,
+    borderBottom:  `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     verticalAlign: 'middle',
   };
 
@@ -237,7 +237,7 @@ export function DataTable<T extends object>({
                 fontFamily:   tokens.typography.fontFamily.base,
                 fontSize:     tokens.typography.fontSize.xs,
                 borderRadius: tokens.radius.default,
-                border:       `1px solid var(--fujin-border-subtle)`,
+                border:       `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
                 background:   'var(--fujin-bg-elevated)',
                 color:        'var(--fujin-text-secondary)',
               },

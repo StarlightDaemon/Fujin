@@ -10,7 +10,7 @@ import { WorkflowStepper } from '../components/WorkflowStepper';
 import { FormShell } from '../components/FormShell';
 import { DataTable } from '../components/DataTable';
 import { useToast } from '../components/FujinToastProvider';
-import tokens from '../tokens.json';
+import tokens from '../dist/tokens.js';
 
 export function App() {
   const { toggle } = useFujinTheme();

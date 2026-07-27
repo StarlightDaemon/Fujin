@@ -1,7 +1,7 @@
 import { Box, Stepper, Text, UnstyledButton } from '@mantine/core';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import tokens from '../tokens.json';
+import tokens from '../dist/tokens.js';
 
 export interface WorkflowStep {
   label:        string;
@@ -62,7 +62,7 @@ export function WorkflowStepper({
     fontWeight:   tokens.typography.fontWeight.medium,
     padding:      `${tokens.spacing.scale.xs}px ${tokens.spacing.scale.md}px`,
     borderRadius: tokens.radius.default,
-    border:       `1px solid ${
+    border:       `${tokens.border.width.hairline}px solid ${
       variant === 'primary'
         ? 'var(--fujin-interactive-default)'
         : 'var(--fujin-border-subtle)'
@@ -81,7 +81,7 @@ export function WorkflowStepper({
     <Box
       style={{
         background:   'var(--fujin-bg-surface)',
-        border:       `1px solid var(--fujin-border-subtle)`,
+        border:       `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
         borderRadius: tokens.radius.default,
       }}
     >
@@ -129,7 +129,7 @@ export function WorkflowStepper({
               style={{
                 padding:      tokens.spacing.scale.md,
                 background:   'var(--fujin-bg-base)',
-                border:       `1px solid var(--fujin-border-subtle)`,
+                border:       `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
                 borderRadius: tokens.radius.default,
               }}
             >
@@ -143,7 +143,7 @@ export function WorkflowStepper({
             style={{
               padding:      tokens.spacing.scale.md,
               background:   'var(--fujin-bg-base)',
-              border:       `1px solid var(--fujin-border-subtle)`,
+              border:       `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
               borderRadius: tokens.radius.default,
               textAlign:    'center',
             }}
@@ -181,7 +181,7 @@ export function WorkflowStepper({
         <Box
           style={{
             padding:        `${tokens.spacing.scale.sm}px ${tokens.spacing.scale.md}px`,
-            borderTop:      `1px solid var(--fujin-border-subtle)`,
+            borderTop:      `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
             display:        'flex',
             justifyContent: 'space-between',
             alignItems:     'center',

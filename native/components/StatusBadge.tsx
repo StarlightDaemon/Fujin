@@ -31,7 +31,7 @@ export function StatusBadge({ status, label, size = 'sm' }: StatusBadgeProps) {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          borderWidth: 1,
+          borderWidth: t.border.width.hairline,
           borderColor: color,
           borderRadius: t.radius.default,
           backgroundColor: 'transparent',

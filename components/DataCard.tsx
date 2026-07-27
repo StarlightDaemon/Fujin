@@ -1,7 +1,7 @@
 import { Box, Collapse, Group, Menu, UnstyledButton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import type { ReactNode } from 'react';
-import tokens from '../tokens.json';
+import tokens from '../dist/tokens.js';
 
 export interface CardAction {
   label:     string;
@@ -38,13 +38,13 @@ export function DataCard({
 
   const card: React.CSSProperties = {
     background:   'var(--fujin-bg-surface)',
-    border:       `1px solid var(--fujin-border-subtle)`,
+    border:       `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     borderRadius: tokens.radius.default,
   };
 
   const header: React.CSSProperties = {
     padding:        `${tokens.spacing.scale.sm}px ${tokens.spacing.scale.md}px`,
-    borderBottom:   `1px solid var(--fujin-border-subtle)`,
+    borderBottom:   `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     display:        'flex',
     alignItems:     'center',
     justifyContent: 'space-between',
@@ -71,7 +71,7 @@ export function DataCard({
     cursor:      'pointer',
     userSelect:  'none',
     padding:     `${tokens.spacing.scale.xs}px ${tokens.spacing.scale.md}px`,
-    borderTop:   `1px solid var(--fujin-border-subtle)`,
+    borderTop:   `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     display:     'flex',
     alignItems:  'center',
     gap:         tokens.spacing.scale.xs,
@@ -84,7 +84,7 @@ export function DataCard({
 
   const footer: React.CSSProperties = {
     padding:        `${tokens.spacing.scale.xs}px ${tokens.spacing.scale.md}px`,
-    borderTop:      `1px solid var(--fujin-border-subtle)`,
+    borderTop:      `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     display:        'flex',
     alignItems:     'center',
     gap:            tokens.spacing.scale.sm,
@@ -102,7 +102,7 @@ export function DataCard({
                      : 'var(--fujin-text-secondary)',
     padding:     `${tokens.spacing.base}px ${tokens.spacing.scale.sm}px`,
     cursor:      disabled ? 'not-allowed' : 'pointer',
-    border:      `1px solid var(--fujin-border-subtle)`,
+    border:      `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     borderRadius: tokens.radius.default,
     background:  'transparent',
     userSelect:  'none',
@@ -160,7 +160,7 @@ export function DataCard({
               <Menu.Dropdown
                 style={{
                   background:   'var(--fujin-bg-elevated)',
-                  border:       `1px solid var(--fujin-border-default)`,
+                  border:       `${tokens.border.width.hairline}px solid var(--fujin-border-default)`,
                   borderRadius: tokens.radius.default,
                   padding:      `${tokens.spacing.base}px 0`,
                 }}

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import tokens from '../tokens.json';
+import tokens from '../dist/tokens.js';
 
 export interface SectionHeaderProps {
   title: string;
@@ -13,7 +13,7 @@ export function SectionHeader({ title, description, action }: SectionHeaderProps
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingBottom: `${tokens.spacing.scale.sm}px`,
-    borderBottom: `1px solid var(--fujin-border-subtle)`,
+    borderBottom: `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
   };
 
   const textGroupStyle: React.CSSProperties = {

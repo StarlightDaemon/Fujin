@@ -112,7 +112,7 @@ function makeStyles(t: FujinTokens) {
   return StyleSheet.create({
     card: {
       backgroundColor: t.colors.bgSurface,
-      borderWidth: 1,
+      borderWidth: t.border.width.hairline,
       borderColor: t.colors.borderSubtle,
       borderRadius: t.radius.default,
     },
@@ -174,7 +174,7 @@ function makeStyles(t: FujinTokens) {
       backgroundColor: t.colors.bgBase,
     },
     actionBtn: {
-      borderWidth: 1,
+      borderWidth: t.border.width.hairline,
       borderColor: t.colors.borderSubtle,
       borderRadius: t.radius.default,
       backgroundColor: 'transparent',

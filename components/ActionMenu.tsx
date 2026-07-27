@@ -1,6 +1,6 @@
 import { Menu, UnstyledButton } from '@mantine/core';
 import type { ReactNode } from 'react';
-import tokens from '../tokens.json';
+import tokens from '../dist/tokens.js';
 
 export interface ActionMenuItem {
   label: string;
@@ -22,14 +22,14 @@ export function ActionMenu({ items }: ActionMenuProps) {
     color: 'var(--fujin-text-secondary)',
     padding: `${tokens.spacing.base}px ${tokens.spacing.scale.sm}px`,
     cursor: 'pointer',
-    border: `1px solid var(--fujin-border-subtle)`,
+    border: `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     borderRadius: tokens.radius.default,
     background: 'transparent',
   };
 
   const dropdownStyle: React.CSSProperties = {
     background: 'var(--fujin-bg-elevated)',
-    border: `1px solid var(--fujin-border-default)`,
+    border: `${tokens.border.width.hairline}px solid var(--fujin-border-default)`,
     borderRadius: tokens.radius.default,
     padding: `${tokens.spacing.base}px 0`,
   };

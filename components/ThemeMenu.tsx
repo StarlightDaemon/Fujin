@@ -1,11 +1,19 @@
 import { Popover, UnstyledButton } from '@mantine/core';
 import { useState } from 'react';
-import tokens from '../tokens.json';
+import tokens from '../dist/tokens.js';
 import { useFujinTheme } from './FujinThemeProvider';
 
 function GearIcon() {
   return (
-    <span aria-hidden="true" style={{ fontSize: tokens.typography.fontSize.md, lineHeight: 1 }}>⚙</span>
+    <span
+      aria-hidden="true"
+      style={{
+        fontSize:   tokens.typography.fontSize.md,
+        lineHeight: tokens.typography.lineHeight.none,
+      }}
+    >
+      ⚙
+    </span>
   );
 }
 
@@ -21,7 +29,7 @@ function ModeButton({ label, active, onClick }: { label: string; active: boolean
         fontWeight: active ? tokens.typography.fontWeight.semibold : tokens.typography.fontWeight.regular,
         color:      active ? 'var(--fujin-text-primary)' : 'var(--fujin-text-muted)',
         background: active ? 'var(--fujin-bg-elevated)' : 'transparent',
-        border:     `1px solid ${active ? 'var(--fujin-border-strong)' : 'var(--fujin-border-subtle)'}`,
+        border:     `${tokens.border.width.hairline}px solid ${active ? 'var(--fujin-border-strong)' : 'var(--fujin-border-subtle)'}`,
         cursor:     active ? 'default' : 'pointer',
         textAlign:  'center',
         transition: `color ${tokens.transition.duration.base} ${tokens.transition.easing.default},
@@ -42,7 +50,7 @@ export function ThemeMenu() {
       opened={open}
       onChange={setOpen}
       position="top-end"
-      offset={8} // no token candidate — literal retained
+      offset={tokens.spacing.base * 2}
       radius={tokens.radius.default}
       shadow="md"
     >
@@ -57,7 +65,7 @@ export function ThemeMenu() {
             width:          tokens.spacing.scale.xl,
             height:         tokens.spacing.scale.xl,
             color:          'var(--fujin-chrome-text)',
-            opacity:        open ? 1 : 0.6, // no token candidate — literal retained
+            opacity:        open ? 1 : tokens.opacity.muted,
             cursor:         'pointer',
             transition:     `opacity ${tokens.transition.duration.base} ${tokens.transition.easing.default}`,
           }}
@@ -69,10 +77,10 @@ export function ThemeMenu() {
       <Popover.Dropdown
         style={{
           background:   'var(--fujin-bg-surface)',
-          border:       '1px solid var(--fujin-border-subtle)',
+          border:       `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
           borderRadius: tokens.radius.default,
           padding:      tokens.spacing.scale.sm,
-          minWidth:     160, // no token candidate — literal retained
+          minWidth:     tokens.layout.menuMinWidth,
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: tokens.spacing.scale.sm }}>

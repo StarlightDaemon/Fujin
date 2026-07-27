@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { UnstyledButton } from '@mantine/core';
-import tokens from '../tokens.json';
+import tokens from '../dist/tokens.js';
 
 const TOAST_WIDTH = 320;
 const MAX_TOASTS  = 5;
@@ -64,8 +64,8 @@ function ToastItem({ entry, onDismiss }: ToastItemProps) {
   const box: React.CSSProperties = {
     width:        TOAST_WIDTH,
     background:   'var(--fujin-bg-surface)',
-    border:       `1px solid var(--fujin-border-subtle)`,
-    borderLeft:   `4px solid ${STATUS_COLOR[entry.status]}`,
+    border:       `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
+    borderLeft:   `${tokens.border.width.accent}px solid ${STATUS_COLOR[entry.status]}`,
     borderRadius: tokens.radius.default,
     padding:      tokens.spacing.scale.md,
     boxShadow:    'var(--fujin-shadow-md)',
@@ -74,7 +74,7 @@ function ToastItem({ entry, onDismiss }: ToastItemProps) {
     gap:          tokens.spacing.scale.xs,
     pointerEvents:'auto',
     opacity:      visible ? 1 : 0,
-    transform:    visible ? 'translateY(0)' : 'translateY(8px)',
+    transform:    visible ? 'translateY(0)' : `translateY(${tokens.spacing.base * 2}px)`,
     transition:   `opacity ${tokens.transition.duration.base} ${tokens.transition.easing.out},
                    transform ${tokens.transition.duration.base} ${tokens.transition.easing.out}`,
   };
@@ -106,7 +106,7 @@ function ToastItem({ entry, onDismiss }: ToastItemProps) {
     fontSize:   tokens.typography.fontSize.md,
     color:      'var(--fujin-text-muted)',
     cursor:     'pointer',
-    lineHeight: 1,
+    lineHeight: tokens.typography.lineHeight.none,
     flexShrink: 0,
   };
 

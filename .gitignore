@@ -1,5 +1,4 @@
 node_modules/
-dist/
 .audits/
 .serena/
 
@@ -11,3 +10,10 @@ audit-reports/
 # macOS
 ._*
 .DS_Store
+
+# dist/ is deliberately NOT ignored. Fujin's build outputs are its deliverable,
+# and consumers install from a git tag — if dist/ were absent from the tag, every
+# consumer would need this repo's devDependencies and a working network to build
+# it themselves at install time. Committed outputs also make token drift visible
+# in review: a changed hex value shows up in the diff instead of appearing
+# silently on the next build. Regenerate with `npm run build` before committing.

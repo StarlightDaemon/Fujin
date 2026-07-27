@@ -1,4 +1,4 @@
-import tokens from '../tokens.json';
+import tokens from '../dist/tokens.js';
 
 export interface StatusBadgeProps {
   status: 'success' | 'danger' | 'warning' | 'info' | 'neutral';
@@ -20,7 +20,7 @@ export function StatusBadge({ status, label, size = 'sm' }: StatusBadgeProps) {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    border: `1px solid ${color}`,
+    border: `${tokens.border.width.hairline}px solid ${color}`,
     color: color,
     borderRadius: tokens.radius.default,
     padding:

@@ -9,7 +9,7 @@
 // camelCase. Values are produced by the SAME `resolveDark`/`resolveLight`
 // functions the web pipeline uses, so web and native never drift.
 
-import tokens from '../../tokens.json';
+import tokens from '../../dist/tokens.js';
 import { resolveDark, resolveLight, type MantineAccentKey } from '../../themes/palette';
 
 export type { MantineAccentKey };
@@ -67,6 +67,8 @@ export interface FujinTokens {
   letterSpacing: { tight: number; base: number; wide: number; widest: number };
   radius: typeof tokens.radius;
   opacity: typeof tokens.opacity;
+  /** px widths as numbers — React Native `borderWidth` takes points, not strings. */
+  border: typeof tokens.border;
 }
 
 // Re-key the web CSS-variable map (`--fujin-*`) into camelCase native roles.
@@ -132,5 +134,6 @@ export function resolveTokens(mode: Mode, preset: MantineAccentKey): FujinTokens
     letterSpacing: LETTER_SPACING,
     radius: tokens.radius,
     opacity: tokens.opacity,
+    border: tokens.border,
   };
 }

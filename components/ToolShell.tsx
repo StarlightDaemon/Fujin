@@ -1,7 +1,7 @@
 import { AppShell, Stack, Tooltip, UnstyledButton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState, type ReactNode } from 'react';
-import tokens from '../tokens.json';
+import tokens from '../dist/tokens.js';
 
 const RAIL_EXPANDED    = 220;
 const RAIL_COLLAPSED   = 60;
@@ -31,7 +31,7 @@ export function ToolShell({ navItems, logo, footer, children, header }: ToolShel
 
   const rail: React.CSSProperties = {
     background:   'var(--fujin-bg-surface)',
-    borderRight:  `1px solid var(--fujin-border-subtle)`,
+    borderRight:  `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     display:      'flex',
     flexDirection:'column',
     transition:   `width ${tokens.transition.duration.base} ${tokens.transition.easing.default}`,
@@ -40,7 +40,7 @@ export function ToolShell({ navItems, logo, footer, children, header }: ToolShel
 
   const logoBar: React.CSSProperties = {
     padding:       tokens.spacing.scale.md,
-    borderBottom:  `1px solid var(--fujin-border-subtle)`,
+    borderBottom:  `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     display:       'flex',
     alignItems:    'center',
     gap:           tokens.spacing.scale.sm,
@@ -59,7 +59,7 @@ export function ToolShell({ navItems, logo, footer, children, header }: ToolShel
   };
 
   const footerSlot: React.CSSProperties = {
-    borderTop: `1px solid var(--fujin-border-subtle)`,
+    borderTop: `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     padding:   tokens.spacing.scale.sm,
     flexShrink: 0,
   };
@@ -71,7 +71,7 @@ export function ToolShell({ navItems, logo, footer, children, header }: ToolShel
 
   const headerBar: React.CSSProperties = {
     background:    'var(--fujin-bg-surface)',
-    borderBottom:  `1px solid var(--fujin-border-subtle)`,
+    borderBottom:  `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     display:       'flex',
     alignItems:    'center',
     padding:       `0 ${tokens.spacing.scale.md}px`,

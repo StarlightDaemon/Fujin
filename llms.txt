@@ -3,18 +3,23 @@
 > All components are token-driven, sharp-edged, and workstation-focused.
 
 ## Repository Structure
-- `tokens.json`         — Single source of truth for all design values
+- `tokens.json`         — DTCG token source. Single source of truth for all design values. Hand-authored.
+- `dist/`               — GENERATED build outputs (tokens.css, tokens.js/.d.ts, mantine-theme.js/.d.ts, tokens-resolved.json). Committed; never hand-edited.
 - `components/`         — Web UI components (Mantine v7)
 - `native/`             — React Native primitive set + native token injection layer (useTokens)
-- `themes/`             — Shared token → semantic-role resolvers (used by web and native)
+- `themes/`             — Thin re-export of the generated module (`palette.ts`) + Mantine preset assembly (`createFujinTheme.ts`)
+- `scripts/`            — Style Dictionary build (`build-tokens.mjs`), custom formats, build verification
+- `AGENTS.md`           — Part A: consumer contract. Part B: in-repo agent guide.
+- `CONSUMERS.md`        — Ledger of downstream consumers; defines what does NOT count as consumption
 - `llms-full.txt`       — Full component API reference and usage examples (native surface: section 6)
 
 ## Core Rules (Non-Negotiable)
-1. All colors, spacing, radius, and typography MUST reference `tokens.json`. No hardcoded values.
-2. All `borderRadius` MUST be `tokens.radius.default` (value: 0). Sharp edges everywhere.
-3. No Mantine theme override — components use inline `style` props; colors via CSS custom properties (`var(--fujin-*)`).
-4. All color references in components MUST use `var(--fujin-*)` CSS custom properties — never `tokens.color.*` directly.
+1. All colors, spacing, radius, and typography MUST come from the generated token module (`import tokens from '../dist/tokens.js'`). No hardcoded values. Never import `tokens.json` directly in a component — it is DTCG source, so its leaves are `{$value, $type}` objects rather than values.
+2. All `borderRadius` MUST be `tokens.radius.default` (value: 0). Sharp edges everywhere. Note: Mantine's `defaultRadius: 0` does NOT reach eleven components whose radius is hardcoded upstream — the generated Mantine theme pins those explicitly. See DECISIONS.md.
+3. Fujin colors are delivered via CSS custom properties (`var(--fujin-*)`), NOT via Mantine's color system. A generated Mantine theme IS applied — it exists to make Mantine's own internals agree with Fujin's tokens, not to deliver Fujin colors. (This rule previously read "No Mantine theme override"; that absolute was stale — see DECISIONS.md → "Superseded: No Mantine Theme Override".)
+4. All color references in components MUST use `var(--fujin-*)` CSS custom properties — never a palette value directly.
 5. Progressive disclosure: if a card has >2 actions, overflow into `ActionMenu`. If a workflow has >3 steps, use `WorkflowStepper`.
+6. Changing a token means: edit `tokens.json`, run `npm run verify`, commit the source AND the regenerated `dist/`.
 
 ## Token Contract Summary
 - Palette:    Slate (10-step, dark-first)
@@ -35,15 +40,25 @@
 - `FujinToastProvider` — Imperative toast notification system via context and portals
 
 ## Import Path
+
+In-repo:
 ```ts
-import { 
-  ToolShell, DataCard, WorkflowStepper, FormShell, StatusBadge, 
-  ActionMenu, SectionHeader, DataTable, FujinToastProvider, useToast 
+import tokens from '../dist/tokens.js';
+import {
+  ToolShell, DataCard, WorkflowStepper, FormShell, StatusBadge,
+  ActionMenu, SectionHeader, DataTable, FujinToastProvider, useToast
 } from './components';
-import type { 
-  NavItem, CardAction, WorkflowStep, FormShellProps, 
-  DataColumn, SortDirection, ToastOptions, ToastStatus 
+import type {
+  NavItem, CardAction, WorkflowStep, FormShellProps,
+  DataColumn, SortDirection, ToastOptions, ToastStatus
 } from './components';
+```
+
+Downstream (installed from a git tag — see AGENTS.md Part A):
+```ts
+import tokens, { resolveDark } from '@fujin/ui';
+import { createFujinMantineTheme } from '@fujin/ui/mantine';
+import '@fujin/ui/tokens.css';
 ```
 
 ## Agent Boundaries

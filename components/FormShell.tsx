@@ -1,6 +1,6 @@
 import { Box, Loader, Text, UnstyledButton } from '@mantine/core';
 import type { FormEvent, ReactNode } from 'react';
-import tokens from '../tokens.json';
+import tokens from '../dist/tokens.js';
 
 export interface FormShellProps {
   onSubmit:      (e: FormEvent<HTMLFormElement>) => void;
@@ -22,7 +22,7 @@ export function FormShell({
 
   const shell: React.CSSProperties = {
     background:   'var(--fujin-bg-surface)',
-    border:       `1px solid var(--fujin-border-subtle)`,
+    border:       `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     borderRadius: tokens.radius.default,
   };
 
@@ -35,7 +35,7 @@ export function FormShell({
 
   const footer: React.CSSProperties = {
     padding:        `${tokens.spacing.scale.sm}px ${tokens.spacing.scale.md}px`,
-    borderTop:      `1px solid var(--fujin-border-subtle)`,
+    borderTop:      `${tokens.border.width.hairline}px solid var(--fujin-border-subtle)`,
     display:        'flex',
     alignItems:     'center',
     justifyContent: actions ? 'space-between' : 'flex-end',
@@ -51,7 +51,7 @@ export function FormShell({
                     : 'var(--fujin-text-primary)',
     padding:      `${tokens.spacing.scale.xs}px ${tokens.spacing.scale.md}px`,
     borderRadius: tokens.radius.default,
-    border:       `1px solid ${
+    border:       `${tokens.border.width.hairline}px solid ${
                     loading
                       ? 'var(--fujin-border-subtle)'
                       : 'var(--fujin-interactive-default)'
