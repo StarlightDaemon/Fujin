@@ -95,6 +95,6 @@
     "style-dictionary": "^5.5.0",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0",
-    "vite": "^5.0.0"
+    "vite": "^6.4.3"
   }
 }

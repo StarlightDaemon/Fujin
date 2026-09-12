@@ -23,7 +23,7 @@ it in the same change that adopts it. That is the whole obligation.
 
 | Repository | Output consumed | Pinned to | Adopted | Contact / notes |
 |---|---|---|---|---|
-| _(none yet)_ | | | | |
+| merlins_cloak_v2 | `@fujin/ui` (JS module — `scalarVars`, `resolveDark`, `palette`) | `v0.1.0` | 2026-07-27 | Dark-only, `blue` accent preset. Replaces a hand-copied token snapshot (`src/theme/fujin-tokens.ts`, removed). |
 
 Column meanings:
 
