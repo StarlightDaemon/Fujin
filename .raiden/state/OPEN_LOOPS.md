@@ -1,7 +1,15 @@
 # Open Loops
 
+<!-- Statuses: open · deferred · held: <who> · no-action · accepted · closed. Each active item: ID, status, gate owner, next step or restart condition, evidence. IDs never change or get reused. Entries below stay in their original order. -->
+
+## Active
+
+- **LOOP-006 · open · gate: none** · WorkflowStepper primary button text uses a theme-relative colour on the accent fill; choose a fixed on-accent role at the semantic token layer (changing `tokens.json` needs the owner's instruction). Details in the LOOP-006 entry below.
+- **LOOP-004 · deferred · gate: trigger** · Component-level token tier. Restarts when: a variant needs a value no single semantic token expresses. Details in the LOOP-004 entry below.
+- LOOP-001, 002, 003 and 005 are closed.
+
 ## LOOP-001 — WSL→macOS Migration Remediation
-**Status:** Resolved (2026-06-07)
+**Status:** closed (2026-06-07)
 **Detail:** Four findings executed:
 - P1: `.git/hooks/commit-msg` permissions corrected from 666 to 755.
 - P2: `AGENTS.md` line 28 — `/mnt/e/Raiden/` replaced with `E:\Citadel/Raiden/`.
@@ -9,14 +17,14 @@
 - P4: 10 prompt files in `.raiden/local/prompts/` updated; zero `/mnt/e/` references remain.
 
 ## LOOP-002 — ToolShell Mobile Burger Button
-**Status:** Resolved (2026-05-05)
+**Status:** closed (2026-05-05)
 **Detail:** Added a concrete Mobile usage example to `llms-full.txt` under the ToolShell
 section. Shows Mantine `Burger` wired to the `header` render prop with `hiddenFrom="sm"`
 and `color="var(--fujin-text-muted)"`. Fallback pattern (UnstyledButton + div bars) also
 documented. No `.tsx` changes — the existing render prop API was already correct.
 
 ## LOOP-003 — Mantine NavLink Active State Background
-**Status:** Resolved (2026-05-05)
+**Status:** closed (2026-05-05)
 **Detail:** Root cause confirmed — Mantine v7's `styles` API does not process CSS selector
 strings like `'&[data-active]'`; they are silently ignored. Fixed by replacing `NavLink`
 entirely with a custom `UnstyledButton` in the expanded rail state. Active/hover background
@@ -24,7 +32,7 @@ now driven by `item.active` and `hoveredLabel` state via inline styles. `NavLink
 removed. Mirrors the collapsed state's existing approach.
 
 ## LOOP-004 — Component-Level Token Tier
-**Status:** Planned (Layer 3)
+**Status:** deferred (planned for Layer 3)
 - Gate: trigger not met — a component with variants whose styling cannot be expressed by a single existing semantic token
 **Assessment (2026-07-09):** Audited every variant-bearing component across web and the
 new `native/` set (StatusBadge status×size, DataCard action states, WorkflowStepper
@@ -42,7 +50,7 @@ distinct from `interactive.default`).
 semantic tokens become ambiguous.
 
 ## LOOP-005 — React Native Primitive Set
-**Status:** Closed (2026-07-09)
+**Status:** closed (2026-07-09)
 **Closure:** Built `native/` — token injection layer (`FujinThemeProvider` + `useTokens()`
 resolving the same `tokens.json` via the shared `themes/palette` resolvers) plus primitives
 StatusBadge, SectionHeader, DataCard. `typecheck:native` clean; `verify:native` asserts
@@ -52,7 +60,7 @@ need its own injection layer to replace CSS custom properties (React Native has 
 StyleSheet-based approach with a `useTokens()` hook is the likely pattern.
 
 ## LOOP-006 — WorkflowStepper Primary Button Contrast
-**Status:** Open
+**Status:** open
 - Gate: none
 **Detail:** `components/WorkflowStepper.tsx` renders the primary nav button ("Next →" /
 "Complete") with `color: var(--fujin-text-primary)` over `background:

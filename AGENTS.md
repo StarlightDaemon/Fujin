@@ -213,114 +213,71 @@ JSON, not transcribed hex values.
 
 # Part B — Working inside Fujin
 
-## B1. Agent startup — RAIDEN Instance
+Fujin is a public GitHub repository (StarlightDaemon/Fujin). Part A above is the consumer guide and ships inside the package; this part is for agents and contributors working in the repo itself.
 
-This repo runs a RAIDEN Instance control plane in `.raiden/`.
+## B1. Start here
 
-**Read first:**
+Read in this order and stop when you have what you need:
 
-1. `.raiden/README.md` — control plane navigation
-2. `.raiden/state/CURRENT_STATE.md` — active work and current state
-3. `.raiden/state/OPEN_LOOPS.md` — pending work
-4. `.raiden/state/DECISIONS.md` — architecture decisions and their rationale
-5. `.raiden/writ/AGENTS.md` — full agent guide: tooling surface, write boundaries, naming canon
-6. `llms.txt` — quick index of what Fujin is and what component rules apply
-7. `llms-full.txt` — full component APIs, token contract, CSS vars, integration notes
+1. This Part B.
+2. `llms.txt`, then `llms-full.txt`: what Fujin is, the component APIs, token contract and CSS variables. **Read `llms-full.txt` before writing or changing any component**; it's authoritative for prop signatures, CSS variable names and composition patterns.
+3. `.raiden/state/CURRENT_STATE.md`: components, token contract, what exists.
+4. The `## Active` section at the top of `.raiden/state/OPEN_LOOPS.md`: open, deferred and held items (statuses: `open`, `deferred`, `held: <who>`, `no-action`, `accepted`, `closed`).
+5. Only when needed: `.raiden/state/DECISIONS.md` (the why, including the radius entry), `WORK_LOG.md`, `CONSUMERS.md` (who depends on which tag).
 
-**Key constraints:**
+Current picture: one open item, LOOP-006 (the WorkflowStepper primary button's text colour on the accent fill; fix it at the semantic token layer). One deferred item, LOOP-004 (a component-level token tier), which restarts when a variant needs a value no single semantic token expresses. Everything else is closed.
 
-- **Do not write to `.raiden/writ/`** — it is RAIDEN-managed core
-- **No `Co-Authored-By` in commits** — the `commit-msg` hook enforces this; do not bypass it
-- **Mainline branch is `main`** — never `master`
-- **D-0016**: on any Writ update — update managed core, preserve local overlay,
-  preserve state, stop and report on locally modified managed files
+This Part B and `.raiden/state/` are authoritative. Don't edit `.raiden/writ/` or `.raiden/instance/`; they're historical RAIDEN v2 text kept for the old tooling, and where they or `.raiden/local/` disagree with this file, this file wins. Model-routing notes in `.raiden/local/` are out of date; ignore them.
 
-**Naming canon:** `RAIDEN` · `Edict` · `RAIDEN Instance` · `Writ` · `payload` —
-use exactly; no synonyms.
+## B2. Commands
 
-**RAIDEN tooling** lives in the central RAIDEN framework repo (path is
-operator-specific; recorded in `.raiden/local/README.md`) — not in this repo.
-Invoke from there with `--instance <this-repo-path>` or `--target <this-repo-path>`.
+- Install: `npm ci`
+- Dev harness: `npm run dev` (Vite; exercises every component with a live theme toggle)
+- Full check: `npm run verify` = build → `verify:build` → `typecheck` → `typecheck:native` → `verify:native`. All five must pass. There's no separate unit-test suite.
 
-## B2. Version namespaces — two different numbers
+CI (`.github/workflows/ci.yml`) runs `npm ci`, `npm audit --audit-level=high` and `npm run verify`. A clean build only changes the `generated` timestamp in `dist/tokens-resolved.json`; don't commit that change on its own.
 
-Fujin carries **two independent version identifiers**. They are different
-namespaces, they are not comparable, and neither implies anything about the other:
+## B3. Version namespaces: two different numbers
 
 | Namespace | Value | What it is |
 |---|---|---|
-| npm package / git tag | **0.1.0** | The distributable artifact. `package.json` `version`; git tag `v0.1.0`. This is what consumers pin to. |
-| RAIDEN Edict | **2.0.0** | Governance control-plane conformance level, recorded in `Raiden-ops/state/FLEET_STATUS.md`. Not a release of this library. |
+| npm package / git tag | **0.1.0** | The distributable artifact: `package.json` `version` and git tag `v0.1.0`. Consumers pin to this. |
+| RAIDEN Edict | **2.0.0** | The governance conformance level recorded in the owner's private fleet records. Not a release of this library. |
 
-They had been recorded side by side under the same repo name with no
-disambiguation. When you write a version anywhere, say which namespace it is in.
+They aren't comparable. When you write a version anywhere, say which namespace it's in.
 
-## B3. Token pipeline — how a value gets from source to consumer
+## B4. Token pipeline
 
 ```
-tokens.json  ──(Style Dictionary)──►  dist/tokens.css
- (DTCG,                               dist/tokens.js + tokens.d.ts
-  hand-authored,                      dist/mantine-theme.js + .d.ts
-  ONLY source of truth)               dist/tokens-resolved.json  (legacy, back-compat)
-                                              │
-                    themes/palette.ts ◄───────┤  (thin re-export, defines nothing)
-                    themes/createFujinTheme.ts┤
-                    components/*.tsx ◄────────┤
-                    native/theme/tokens.ts ◄──┘
+tokens.json  ──(Style Dictionary)──►  dist/tokens.css, dist/tokens.js + .d.ts,
+ (DTCG, hand-authored,                dist/mantine-theme.js + .d.ts,
+  the only source of truth)           dist/tokens-resolved.json (legacy)
+                                         │
+     themes/palette.ts (thin re-export) ◄┤  themes/createFujinTheme.ts ◄┤
+     components/*.tsx ◄──────────────────┤  native/theme/tokens.ts ◄────┘
 ```
 
-- **`tokens.json`** is the only place a design value is defined. Hand-authored.
-- **`dist/`** is generated and **committed** — consumers install from a git tag and
-  must not need this repo's devDependencies to build it. Never hand-edit.
-- **`themes/palette.ts`** re-exports the generated module. It used to hold a second
-  hand-maintained copy of all 140 palette hex values; it defines nothing now.
+- `tokens.json` is the only place a design value is defined.
+- `dist/` is generated and **committed**: consumers install from a git tag and must not need this repo's devDependencies. Never hand-edit it.
+- To change a token: edit `tokens.json`, run `npm run verify`, commit `tokens.json` **and** `dist/` together.
 
-**Adding or changing a token:**
+## B5. Hard rules
 
-```bash
-# 1. edit tokens.json      2. rebuild + verify      3. commit tokens.json AND dist/
-npm run verify
-```
+- All design values come from `tokens.json`: no hardcoded colours, spacing, radius, type or font names. In components, import from `../dist/tokens.js`, never `../tokens.json` (its leaves are `{$value, $type}` objects).
+- `borderRadius` is always `tokens.radius.default` (0). `defaultRadius: 0` alone doesn't enforce this across Mantine (see A3 and `DECISIONS.md`).
+- Colour in components goes through `var(--fujin-*)`, never a palette value or hex directly.
+- No component sets its own external margins; callers own layout spacing.
+- Don't modify `tokens.json` without the owner's explicit instruction.
+- No Mantine theme override outside the generated theme without a reason recorded in `DECISIONS.md`.
+- `.audits/` is gitignored. If you annotate or correct a file there, also record it as a dated entry in `DECISIONS.md`; that's the durable copy.
+- Main branch is `main`. Agent work goes on `<agent>/<task>` branches in their own worktrees.
+- No `Co-Authored-By` or other agent attribution lines in commits; the `commit-msg` hook enforces this. Never bypass it.
+- Don't commit personal names, absolute local paths or details of the owner's private tooling: this repo is public, and this file ships in the package.
 
-`npm run verify` = build → `verify:build` → `typecheck` → `typecheck:native` →
-`verify:native`. All five must pass.
+## B6. Releases
 
-## B4. Fujin hard rules
+Releases are the owner's call; ask before tagging or pushing. A release: `npm run verify` green → commit `tokens.json` and `dist/` → `git tag -a v<x.y.z> -m "<summary>"` → tell the registered consumers in `CONSUMERS.md` if a token value changed. Tags are the distribution mechanism (A1); an untagged commit isn't consumable. `npm publish` is blocked on purpose.
 
-Fujin is a Mantine v7-based UI component toolset. It is **not** a governance agent.
+## B7. Working in parallel
 
-- All design values come from `tokens.json`. No hardcoded colors, spacing, radius,
-  or type. In components, import from `../dist/tokens.js` — never from
-  `../tokens.json` (that is the DTCG source; its leaves are `{$value, $type}`
-  objects, not values).
-- `borderRadius` is always `tokens.radius.default` (0). No exceptions without
-  approval. Note that `defaultRadius: 0` alone does **not** enforce this across
-  Mantine — see A3 and the radius entry in `DECISIONS.md`.
-- Do not modify `tokens.json` without explicit operator instruction.
-- All color in components goes through `var(--fujin-*)`, never a palette value
-  directly.
-- Do not introduce a Mantine theme override outside the generated theme without
-  documenting the reason in `DECISIONS.md`.
-- Read `llms-full.txt` before writing or modifying any component — it is
-  authoritative for prop signatures, CSS var names, and composition patterns.
-
-## B5. Cutting a release
-
-1. `npm run verify` — all five stages green.
-2. Commit `tokens.json` **and** the regenerated `dist/`.
-3. Tag: `git tag -a v<x.y.z> -m "<summary>"`.
-4. Tell registered consumers in `CONSUMERS.md` if a token value changed.
-
-Tags are the distribution mechanism (Part A1). An untagged commit is not
-consumable.
-
-## B6. Audit-tracking policy
-
-`.audits/` is gitignored by design (see `.gitignore`) — audit output is
-operator tooling, not framework content. That means any correction or
-annotation made to a file inside `.audits/` does **not** survive a clean
-clone or a hard reset on its own. Whenever you annotate or correct a file in
-`.audits/`, also record the same correction as its own dated entry in
-`.raiden/state/DECISIONS.md`. The `DECISIONS.md` entry is the durable copy;
-the in-place annotation is a convenience for whoever is already reading that
-audit file.
+One agent per worktree. Before starting, read the Claims section of `../../HANDOFF.md` (the workspace folder two levels above the repo or worktree root, outside Git, so every worktree sees the same file) and `git worktree list`, then add your claim line there; mark it done when you finish. Separate tasks may run in parallel only when both claims are listed there and they don't touch the same files. The owner (or the agent they assign) merges branches and updates `.raiden/state/`. Releases, `tokens.json` changes, the hook and Git config are one-at-a-time work.
