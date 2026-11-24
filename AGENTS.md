@@ -225,7 +225,7 @@ Read in this order and stop when you have what you need:
 4. The `## Active` section at the top of `.raiden/state/OPEN_LOOPS.md`: open, deferred and held items (statuses: `open`, `deferred`, `held: <who>`, `no-action`, `accepted`, `closed`).
 5. Only when needed: `.raiden/state/DECISIONS.md` (the why, including the radius entry), `WORK_LOG.md`, `CONSUMERS.md` (who depends on which tag).
 
-Current picture: one open item, LOOP-006 (the WorkflowStepper primary button's text colour on the accent fill; fix it at the semantic token layer). One deferred item, LOOP-004 (a component-level token tier), which restarts when a variant needs a value no single semantic token expresses. Everything else is closed.
+Current picture: nothing open. One deferred item, LOOP-004 (a component-level token tier), which restarts when a variant needs a value no single semantic token expresses. Everything else is closed.
 
 This Part B and `.raiden/state/` are authoritative. Don't edit `.raiden/writ/` or `.raiden/instance/`; they're historical RAIDEN v2 text kept for the old tooling, and where they or `.raiden/local/` disagree with this file, this file wins. Model-routing notes in `.raiden/local/` are out of date; ignore them.
 

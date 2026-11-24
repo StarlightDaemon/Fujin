@@ -71,7 +71,7 @@ export function WorkflowStepper({
       ? 'var(--fujin-interactive-default)'
       : 'transparent',
     color: variant === 'primary'
-      ? 'var(--fujin-text-primary)'
+      ? 'var(--fujin-text-on-accent)'
       : 'var(--fujin-text-secondary)',
     cursor:  disabled ? 'not-allowed' : 'pointer',
     opacity: disabled ? tokens.opacity.disabled : 1,

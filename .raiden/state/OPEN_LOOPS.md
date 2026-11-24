@@ -4,9 +4,8 @@
 
 ## Active
 
-- **LOOP-006 · open · gate: none** · WorkflowStepper primary button text uses a theme-relative colour on the accent fill; choose a fixed on-accent role at the semantic token layer (changing `tokens.json` needs the owner's instruction). Details in the LOOP-006 entry below.
 - **LOOP-004 · deferred · gate: trigger** · Component-level token tier. Restarts when: a variant needs a value no single semantic token expresses. Details in the LOOP-004 entry below.
-- LOOP-001, 002, 003 and 005 are closed.
+- LOOP-001, 002, 003, 005 and 006 are closed.
 
 ## LOOP-001 — WSL→macOS Migration Remediation
 **Status:** closed (2026-06-07)
@@ -60,9 +59,19 @@ need its own injection layer to replace CSS custom properties (React Native has 
 StyleSheet-based approach with a `useTokens()` hook is the likely pattern.
 
 ## LOOP-006 — WorkflowStepper Primary Button Contrast
-**Status:** open
-- Gate: none
-**Detail:** `components/WorkflowStepper.tsx` renders the primary nav button ("Next →" /
+**Status:** closed (2026-11-24)
+**Closure:** `components/WorkflowStepper.tsx` primary nav button now uses
+`var(--fujin-text-on-accent)` (fixed white in both modes, already defined in
+`tokens.json`, so no token change). `text-inverse` was considered and rejected: it is
+also theme-relative (near-black in dark mode, near-white in light mode), so it only
+moves the problem between modes. Measured contrast against `interactive.default`
+(WCAG ratio, dark/light): before, `text-primary` was 1.4–3.0 in dark and 3.1–6.5 in
+light; `text-inverse` would be 2.2–7.0 across the same cases and fall below 3 in
+light mode for cyan, teal, green and orange; `text-on-accent` is 2.4–4.9 in both.
+**Residual:** white on cyan, teal, green and orange accents (2.4–2.8) is still below
+the 3:1 large-text floor. Fixing that needs per-accent on-accent values in `tokens.json`
+(owner's instruction required) and is not part of this loop.
+**Original detail:** `components/WorkflowStepper.tsx` renders the primary nav button ("Next →" /
 "Complete") with `color: var(--fujin-text-primary)` over `background:
 var(--fujin-interactive-default)`. `text-primary` is theme-relative (light gray `dark[0]`
 in dark mode, near-black `gray[9]` in light mode) while the accent background is
